@@ -1,24 +1,23 @@
-// SYNTHETIC typed-input rehearsal. No microphone/device/human-acceptance proof.
-// Default: no database writes. --memory-continuity uses and cleans a temporary learner.
-import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
-import { randomUUID } from 'node:crypto';
-import { buildInstructions, learningTool } from './prompt.mjs';
-import { topic } from './index.mjs';
-import { validateSession, DemoError } from './validation.mjs';
-import { createStore } from './store.mjs';
+// Live Higgs personality rehearsal with synthetic typed input; no database writes.
+// Run: node --env-file=.env scripts/higgs-personality-smoke.mjs
+// Add --novel to exercise paraphrases outside the prompt's reference conversation.
+// Add --family to disagree with the premise and choose a different use of saved time.
+import { mkdir, writeFile, readFile } from 'node:fs/promises';
+import { randomUUID, createHash } from 'node:crypto';
+import { buildInstructions, learningTool } from '../server/prompt.mjs';
+import { topic } from '../server/index.mjs';
+import { validateSession, DemoError } from '../server/validation.mjs';
 
-const memoryContinuity = process.argv.includes('--memory-continuity');
-const evidenceFile = memoryContinuity ? '.demo/synthetic-memory-continuity.json' : '.demo/synthetic-provider-rehearsal.json';
 const startedAt = new Date().toISOString();
-const evidence = {
-  evidenceTier: 'LIVE PROVIDER WITH SYNTHETIC TYPED INPUT. NOT MICROPHONE, DEVICE, HUMAN TONE ACCEPTANCE OR REAL LEARNER PROOF.',
-  startedAt, memoryContinuity, outcome: 'pending',
-};
+const novel = process.argv.includes('--novel');
+const family = process.argv.includes('--family');
 const connections = [];
-let temporaryStore;
-let temporaryLearner;
-
+const evidenceFile = `docs/evidence/personality/${startedAt.replaceAll(':', '-')}.json`;
+const evidence = {
+  evidenceTier: 'LIVE HIGGS WITH SYNTHETIC TYPED INPUT. NOT MICROPHONE, DEVICE OR HUMAN COMEDY ACCEPTANCE.',
+  startedAt, novel, family, outcome: 'pending', topic,
+  promptSHA256: createHash('sha256').update(await readFile('server/prompt.mjs')).digest('hex'),
+};
 async function connect(memory = []) {
   const credentialResponse = await fetch('https://api.boson.ai/v1/realtime/client_secrets', {
     method: 'POST', redirect: 'error', signal: AbortSignal.timeout(15000),
@@ -117,72 +116,51 @@ async function connect(memory = []) {
   };
 }
 
+let call;
 try {
-  const first = await connect();
-  await first.greet();
-  for (const input of [
-    "People is overreacting because Apple don't change much. I can spend time for more important things.",
-    "People are overreacting because Apple doesn't change much. I can spend time on more important things.",
-    'I still think buying a new phone every year is not คุ้มค่า. What would make it worth the money?',
-  ]) await first.userTurn(input);
-  const captureLatencyMS = await first.capture();
-  first.close();
-  evidence.callOne = { ...first.report(), captureLatencyMS };
-  const validated = validateSession({ id: randomUUID(), createdAt: startedAt, topic: topic.title, transcript: first.transcript, candidates: first.candidates });
+  call = await connect();
+  await call.greet();
+  const inputs = family ? [
+    "AI agents aren't more productive. I spend longer fixing their mistakes than doing errands myself.",
+    'I would rather use that time for… เอ่อ… ทำอาหารให้ครอบครัว',
+    "Stop judging me, I'm trying to answer!",
+    'I can spend time for more important things.',
+    'I can spend time on more important things.',
+    'Cook dinner for my family. That matters more than another app.',
+  ] : novel ? [
+    'If an AI handles all my errands, I finally get my afternoons back.',
+    'I could use those hours for… เอ่อ… ทำสิ่งที่มีประโยชน์กว่า',
+    'Oh shut up, you know what I mean!',
+    'I can spend time for more important things.',
+    'I can spend time on more important things.',
+    'Honestly? Binge Netflix without checking my work messages.',
+  ] : [
+    'AI can do boring things, so human can—',
+    'Humans will have more time to… เอ่อ… ทำสิ่งที่มีประโยชน์กว่า',
+    'Shut up!',
+    'Humans can spend time for more important things.',
+    'Humans can spend time on more important things.',
+    'Watch Spider-Man?',
+  ];
+  for (const input of inputs) await call.userTurn(input);
+  evidence.captureLatencyMS = await call.capture();
+  const validated = validateSession({ id: randomUUID(), createdAt: startedAt, topic: topic.title, transcript: call.transcript, candidates: call.candidates });
+  // This is a synthetic receipt for inspection only; never persisted.
+  validated.receipt.isMock = true;
   evidence.validation = { receipt: validated.receipt, warnings: validated.warnings, rejectedSignals: validated.rejectedSignals };
-  if (!validated.memories.length) throw new DemoError('The synthetic conversation produced no validated learning signals.');
-
-  if (memoryContinuity) {
-    temporaryLearner = `roasted-provider-check-${randomUUID()}`;
-    const temporaryEnvironment = { ...process.env, DEMO_LEARNER_ID: temporaryLearner };
-    temporaryStore = createStore(temporaryEnvironment);
-    // Synthetic fixture is explicitly marked mock and belongs to a separate generated learner.
-    validated.receipt.isMock = true;
-    const saved = await temporaryStore.save(validated);
-    const fetched = await createStore(temporaryEnvironment).retrieve();
-    assert.equal(fetched.receipts[0].id, saved.receipt.id);
-    assert.equal(fetched.memory.length, validated.memories.length);
-    evidence.persistence = { temporaryLearner, savedSessionID: saved.receipt.id, freshlyRetrievedMemory: fetched.memory };
-    const second = await connect(fetched.memory);
-    await second.greet();
-    await second.userTurn("I'm back. Any embarrassing receipts from our previous call before we argue about the iPhone again?");
-    second.close();
-    evidence.callTwo = second.report();
-  }
   evidence.outcome = 'completed';
 } catch (error) {
   evidence.outcome = 'failed';
-  evidence.error = error instanceof DemoError ? error.message : 'Synthetic provider verification failed. Raw provider details were not retained.';
+  evidence.error = error instanceof DemoError ? error.message : 'Synthetic personality rehearsal failed; raw provider details were not retained.';
   process.exitCode = 1;
 } finally {
-  for (const socket of connections) socket.close();
-  if (temporaryStore) {
-    try {
-      await temporaryStore.request('/api/database/advance/rawsql', {
-        method: 'POST', body: JSON.stringify({
-          query: 'WITH removed_memory AS (DELETE FROM public.learning_memory WHERE learner_id = $1 RETURNING signal_key) DELETE FROM public.sessions WHERE learner_id = $1',
-          params: [temporaryLearner],
-        }),
-      });
-      const remaining = await temporaryStore.retrieve();
-      assert.equal(remaining.memory.length, 0);
-      assert.equal(remaining.receipts.length, 0);
-      evidence.fixtureCleanupVerified = true;
-    } catch {
-      evidence.fixtureCleanupVerified = false;
-      evidence.cleanupLearner = temporaryLearner;
-      process.exitCode = 1;
-    }
+  if (call) {
+    evidence.call = call.report();
+    evidence.assistantTurns = call.transcript.filter((item) => item.speaker === 'Nobody').map(({ text }) => ({ text, wordCount: text.trim().split(/\s+/u).length }));
   }
+  for (const socket of connections) socket.close();
   evidence.completedAt = new Date().toISOString();
-  await mkdir('.demo', { recursive: true });
+  await mkdir('docs/evidence/personality', { recursive: true });
   await writeFile(evidenceFile, JSON.stringify(evidence, null, 2));
-  console.log(JSON.stringify({
-    syntheticOnly: true, outcome: evidence.outcome, error: evidence.error,
-    firstCallAudioBytes: evidence.callOne?.audioBytes, validatedSignals: evidence.validation?.receipt.signals.length,
-    captureLatencyMS: evidence.callOne?.captureLatencyMS,
-    freshMemorySignals: evidence.persistence?.freshlyRetrievedMemory.length,
-    secondCallAudioBytes: evidence.callTwo?.audioBytes, fixtureCleanupVerified: evidence.fixtureCleanupVerified,
-    evidenceFile,
-  }));
+  console.log(JSON.stringify({ outcome: evidence.outcome, error: evidence.error, captureLatencyMS: evidence.captureLatencyMS, assistantTurns: evidence.assistantTurns, receipt: evidence.validation?.receipt, warnings: evidence.validation?.warnings, evidenceFile }));
 }

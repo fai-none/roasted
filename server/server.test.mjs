@@ -56,6 +56,49 @@ test('retry must occur after correction; improvement requires the corrected word
   assert.equal(validateSession(uncorrected).receipt.signals[0].improvementObserved, false);
 });
 
+test('a spoken trailing placeholder is excluded only when a later retry proves the corrected phrase', () => {
+  const input = fixture();
+  input.candidates[0].signals[0].nativeAlternative = 'spend time on something';
+  const signal = validateSession(input).receipt.signals[0];
+  assert.equal(signal.nativeAlternative, 'spend time ON');
+  assert.equal(signal.improvementObserved, true);
+  input.transcript[2].text = 'I spend time for more important things';
+  input.candidates[0].signals[0].retryQuote = input.transcript[2].text;
+  const unsuccessful = validateSession(input).receipt.signals[0];
+  assert.equal(unsuccessful.nativeAlternative, 'spend time ON something');
+  assert.equal(unsuccessful.improvementObserved, false);
+});
+
+test('genuine something in the original or full corrected retry remains in the alternative', () => {
+  const input = fixture();
+  input.candidates[0].signals[0].nativeAlternative = 'spend time on something';
+  input.transcript[2].text = 'I spend time on something';
+  input.candidates[0].signals[0].retryQuote = input.transcript[2].text;
+  let signal = validateSession(input).receipt.signals[0];
+  assert.equal(signal.nativeAlternative, 'spend time ON something');
+  assert.equal(signal.improvementObserved, true);
+  input.transcript[0].text = 'Humans can spend time for something';
+  input.candidates[0].signals[0].originalQuote = input.transcript[0].text;
+  input.transcript[2].text = 'I spend time on other things';
+  input.candidates[0].signals[0].retryQuote = input.transcript[2].text;
+  signal = validateSession(input).receipt.signals[0];
+  assert.equal(signal.nativeAlternative, 'spend time ON something');
+  assert.equal(signal.improvementObserved, false);
+});
+
+test('placeholder normalization never leaves a one-word correction or uses an earlier retry', () => {
+  const input = fixture();
+  input.candidates[0].signals[0].nativeAlternative = 'on something';
+  let signal = validateSession(input).receipt.signals[0];
+  assert.equal(signal.nativeAlternative, 'ON something');
+  assert.equal(signal.improvementObserved, false);
+  input.candidates[0].signals[0].nativeAlternative = 'spend time on something';
+  input.transcript = [input.transcript[0], input.transcript[2], input.transcript[1]];
+  signal = validateSession(input).receipt.signals[0];
+  assert.equal(signal.nativeAlternative, 'spend time ON something');
+  assert.equal(signal.improvementObserved, false);
+});
+
 function duplicateCorrectionFixture() {
   const input = fixture();
   input.transcript.push({ id: 'assistant-2', speaker: 'Nobody', text: 'You can also say spend time doing something.' });
@@ -104,6 +147,56 @@ test('unmatched supplemental fields are omitted with visible warnings', () => {
   const result = validateSession(input);
   assert.equal(result.receipt.culturalTakeaway, '');
   assert.equal(result.warnings.length, 1);
+});
+
+test('Thai receipt detail requires actual learner Thai, not assistant claims or candidate metadata', () => {
+  const input = fixture();
+  input.transcript.push({ id: 'assistant-thai', speaker: 'Nobody', text: 'You fled to Thai: แพงเกินไป' });
+  input.candidates[0].momentOfWeaknessQuote = 'แพงเกินไป';
+  let receipt = validateSession(input).receipt;
+  assert.equal(receipt.momentOfWeakness, '');
+  assert.equal(receipt.momentOfWeaknessQuote, '');
+  input.transcript.push({ id: 'user-thai', speaker: 'You', text: 'I mean แพงเกินไป มาก for this phone.' });
+  receipt = validateSession(input).receipt;
+  assert.equal(receipt.momentOfWeakness, 'Fled to Thai under pressure');
+  assert.equal(receipt.momentOfWeaknessQuote, 'แพงเกินไป มาก');
+});
+
+test('Thai receipt excerpt stays bounded and comes from the actual learner text', () => {
+  const input = fixture();
+  const text = 'แพง'.repeat(150);
+  input.transcript.push({ id: 'user-thai', speaker: 'You', text });
+  const quote = validateSession(input).receipt.momentOfWeaknessQuote;
+  assert.equal(quote.length, 300);
+  assert.equal(text.includes(quote), true);
+});
+
+test('Thai receipt selects meaningful source words after a filler and ellipsis', () => {
+  const input = fixture();
+  input.transcript.push({ id: 'user-thai', speaker: 'You', text: 'Humans will have more time to… เอ่อ… ทำสิ่งที่มีประโยชน์กว่า' });
+  assert.equal(validateSession(input).receipt.momentOfWeaknessQuote, 'ทำสิ่งที่มีประโยชน์กว่า');
+});
+
+test('AI agents culture label requires an actual transcript mention', () => {
+  const input = fixture();
+  input.topic = 'AI agents';
+  input.candidates[0].cultureLabel = 'AI agents';
+  assert.equal(validateSession(input).receipt.cultureLabel, '');
+  input.transcript.push({ id: 'assistant-culture', speaker: 'Nobody', text: 'An AI agent could do your job.' });
+  assert.equal(validateSession(input).receipt.cultureLabel, 'AI agents');
+  input.transcript.at(-1).text = 'People are worried about ai agents.';
+  assert.equal(validateSession(input).receipt.cultureLabel, 'AI agents');
+});
+
+test('closing roast retains only matched actual Nobody wording, with old candidates still accepted', () => {
+  const input = fixture();
+  assert.equal(validateSession(input).receipt.closingRoast, '');
+  input.candidates[0].closingRoast = 'You spend time on something. Try again.';
+  assert.equal(validateSession(input).receipt.closingRoast, 'You spend time ON something. Try again');
+  input.candidates[0].closingRoast = 'Your grammar has been replaced by AI';
+  const result = validateSession(input);
+  assert.equal(result.receipt.closingRoast, '');
+  assert.deepEqual(result.warnings, ["The closing roast could not be matched to Nobody's actual words and was omitted."]);
 });
 
 test('duplicate transcript IDs and no actual user speech are rejected', () => {

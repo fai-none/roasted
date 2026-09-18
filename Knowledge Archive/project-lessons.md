@@ -15,3 +15,11 @@
 - Evidence: `VoiceAudio.swift`; `VoiceAudioChecks.swift` exercises two real engine start/mute/playback/stop cycles in Simulator. The original crash named the microphone-tap closure and `_swift_task_checkIsolatedSwift`; the corrected runtime test passed.
 - Apply when: Adding AVFoundation callbacks or changing audio routing in Swift 6.
 - Avoid: Treating typecheck or a provider WebSocket handshake as proof of native microphone/speaker operation.
+
+## Test a personality against answers that are absent from its examples
+
+- Context: Nobody followed the founder’s ideal script in a live synthetic Higgs call, but delivered a Spider-Man punchline when a different user answer said Netflix.
+- Lesson: Script adherence is weaker evidence than reactive conversation. Change both the user’s opinion and their payoff answer; check that the model’s joke uses the actual last utterance without importing example facts. Keep human comedic acceptance separate from brevity and transport checks.
+- Evidence: `scripts/higgs-personality-smoke.mjs --novel` and `--family`; `docs/evidence/personality/2026-09-18T20-36-38.775Z.json` shows the unrelated film reference. Removing that specific payoff stopped it in subsequent retained runs, but humor remained uneven.
+- Apply when: Tuning examples for a conversational character or evaluating a demo against a founder-written ideal call.
+- Avoid: Calling a prompt successful solely because the model reproduces the supplied conversation, or weakening quote validation to make its learning receipt look better.

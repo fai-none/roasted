@@ -94,7 +94,7 @@ try {
         instructions: buildInstructions({ topic: { title: 'Phone upgrades', context: 'Evergreen debate: is a new phone worth buying when the old one still works?' }, memory: [], language: 'Thai' }),
         output_modalities: ['audio'],
         audio: {
-          input: { format: { type: 'audio/pcm', rate: 24000 }, transcription: { model: 'higgs-stt-3.1' }, turn_detection: { type: 'semantic_vad' } },
+          input: { format: { type: 'audio/pcm', rate: 24000 }, transcription: { model: 'higgs-stt-3.1', language: 'en' }, turn_detection: { type: 'semantic_vad' } },
           output: { format: { type: 'audio/pcm', rate: 24000 }, voice: 'default' },
         },
         tools: [learningTool], tool_choice: 'auto',

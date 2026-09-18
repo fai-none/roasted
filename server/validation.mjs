@@ -52,17 +52,20 @@ export function validateSession(input) {
   const signalKeys = new Set();
   let usefulExpression = '';
   let culturalTakeaway = '';
+  let closingRoast = '';
   let rejectedSignals = 0;
   const warnings = [];
   for (const candidate of input.candidates) {
-    for (const field of ['usefulExpression', 'culturalTakeaway']) {
+    for (const field of ['usefulExpression', 'culturalTakeaway', 'closingRoast']) {
       const value = bounded(candidate?.[field]);
       const spoken = transcript.find((item) => item.speaker === 'assistant' && quoteWithin(value, item));
       if (value && spoken) {
         if (field === 'usefulExpression') usefulExpression = quoteWithin(value, spoken);
-        else culturalTakeaway = quoteWithin(value, spoken);
+        else if (field === 'culturalTakeaway') culturalTakeaway = quoteWithin(value, spoken);
+        else closingRoast = quoteWithin(value, spoken);
       } else if (value) {
-        warnings.push(`${field === 'usefulExpression' ? 'The useful expression' : 'The cultural takeaway'} could not be matched to Nobody's actual words and was omitted.`);
+        const label = { usefulExpression: 'The useful expression', culturalTakeaway: 'The cultural takeaway', closingRoast: 'The closing roast' }[field];
+        warnings.push(`${label} could not be matched to Nobody's actual words and was omitted.`);
       }
     }
     for (const source of Array.isArray(candidate?.signals) ? candidate.signals.slice(0, 3) : []) {
@@ -79,11 +82,21 @@ export function validateSession(input) {
       const key = createHash('sha256').update(`${kind}:${normalize(signal).toLowerCase()}`).digest('hex');
       const retryQuote = bounded(source.retryQuote);
       const retry = transcript.find((item) => item.speaker === 'user' && item.index > correction.index && quoteWithin(retryQuote, item));
+      let spokenAlternative = quoteWithin(nativeAlternative, correction);
+      const alternativeWords = words(spokenAlternative);
+      if (retry && alternativeWords.length >= 3 && alternativeWords.at(-1).value === 'something'
+        && !words(originalQuote).some((word) => word.value === 'something')) {
+        const withoutPlaceholder = spokenAlternative.slice(0, alternativeWords.at(-2).end);
+        const actualRetry = { text: quoteWithin(retryQuote, retry) };
+        if (quoteWithin(withoutPlaceholder, actualRetry) && !quoteWithin(spokenAlternative, actualRetry)) {
+          spokenAlternative = withoutPlaceholder;
+        }
+      }
       const validated = {
-        kind, signal, originalQuote: quoteWithin(originalQuote, original), nativeAlternative: quoteWithin(nativeAlternative, correction),
+        kind, signal, originalQuote: quoteWithin(originalQuote, original), nativeAlternative: spokenAlternative,
         retryQuote: retry ? quoteWithin(retryQuote, retry) : '',
         improvementObserved: source.improvementObserved === true && Boolean(retry)
-          && Boolean(quoteWithin(nativeAlternative, { text: retryQuote }))
+          && Boolean(quoteWithin(spokenAlternative, { text: retryQuote }))
           && normalize(originalQuote) !== normalize(retryQuote),
       };
       // Tool order is not learner progress: an untried duplicate must not erase a verified retry.
@@ -102,9 +115,15 @@ export function validateSession(input) {
   }
   if (rejectedSignals && !signals.length) throw new DemoError('Learning candidates did not match the actual conversation. No learning was saved.', 422);
   if (rejectedSignals) warnings.push(`${rejectedSignals} learning candidate(s) did not match the actual conversation and were omitted.`);
+  const thaiSegments = transcript.filter((item) => item.speaker === 'user')
+    .flatMap((item) => [...item.text.matchAll(/\p{Script=Thai}[\p{Script=Thai}\s]*/gu)].map((match) => match[0].trim()));
+  const momentOfWeaknessQuote = thaiSegments.reduce((longest, segment) => segment.length > longest.length ? segment : longest, '').slice(0, 300);
   const receipt = {
     id: input.id.toLowerCase(), createdAt: date.toISOString(), topic,
     signals: signals.map(({ key, ...signal }) => signal), usefulExpression, culturalTakeaway, isMock: false,
+    cultureLabel: transcript.some((item) => /\bAI\s+agents?\b/i.test(item.text)) ? 'AI agents' : '',
+    momentOfWeakness: momentOfWeaknessQuote ? 'Fled to Thai under pressure' : '',
+    momentOfWeaknessQuote, closingRoast,
   };
   return { receipt, sources, memories: signals, rejectedSignals, warnings: [...new Set(warnings)] };
 }

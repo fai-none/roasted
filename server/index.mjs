@@ -7,11 +7,12 @@ import { createStore } from './store.mjs';
 import { DemoError, validateSession } from './validation.mjs';
 
 export const topic = {
-  title: 'Does every phone upgrade need to be a personality?',
+  title: 'AI got productive. What’s your excuse?',
   date: '2026-09-18',
-  context: 'Apple announced iPhone 18 Pro on September 9, with availability from September 18. It highlights camera, battery and performance upgrades. Does that make upgrading worth it—or is the hype doing the work?',
-  sourceURL: 'https://www.apple.com/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/',
-  expression: 'keeping up with the Joneses',
+  context: 'AI agents can help with shopping, bookings and business phone calls. Google announced agentic shopping and store calling on November 13, 2025, and booking assistance for restaurants, event tickets and appointments on November 17, 2025. Availability varies by market and service; these are established examples, not news announced today. What will humans actually do with the time saved?',
+  sourceURL: 'https://blog.google/products-and-platforms/products/shopping/agentic-checkout-holiday-ai-shopping/',
+  expression: 'spend time on something',
+  opening: 'AI agents can shop for you, help book things, and call businesses for you now. Basically your AI has become more productive than you. Thoughts?',
 };
 
 async function readJSON(request) {

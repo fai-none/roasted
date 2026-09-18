@@ -55,7 +55,7 @@ try {
           audio: {
             input: {
               format: { type: 'audio/pcm', rate: 24_000 },
-              transcription: { model: 'higgs-stt-3.1' },
+              transcription: { model: 'higgs-stt-3.1', language: 'en' },
               turn_detection: { type: 'semantic_vad' },
             },
             output: { format: { type: 'audio/pcm', rate: 24_000 }, voice: 'default' },
@@ -73,7 +73,7 @@ try {
       if (type === 'session.created') {
         send(toolSmoke ? {
           type: 'response.create',
-          response: { instructions: 'This is a synthetic transport test with no learner utterances. Call capture_learning exactly once now with signals [], usefulExpression "", culturalTakeaway "". Do not fabricate evidence and do not speak before the tool call.' },
+          response: { instructions: 'This is a synthetic transport test with no learner utterances. Call capture_learning exactly once now with signals [], usefulExpression "", culturalTakeaway "", closingRoast "". Do not fabricate evidence and do not speak before the tool call.' },
         } : { type: 'response.create' });
       }
       if (type === 'response.output_audio.delta' && typeof event.delta === 'string') {

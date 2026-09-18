@@ -43,7 +43,7 @@ struct HomeView: View {
                     HStack {
                         Text(session.topicDate).foregroundStyle(NobodyTheme.secondary)
                         Spacer()
-                        Link("Source: Apple Newsroom", destination: session.topicSourceURL)
+                        Link(session.topicSourceLabel, destination: session.topicSourceURL)
                             .foregroundStyle(NobodyTheme.accent)
                     }
                     .font(.caption2)

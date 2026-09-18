@@ -25,6 +25,10 @@ struct LearningReceipt: Identifiable, Codable, Equatable {
     let usefulExpression: String
     let culturalTakeaway: String
     let isMock: Bool
+    var cultureLabel: String? = nil
+    var momentOfWeakness: String? = nil
+    var momentOfWeaknessQuote: String? = nil
+    var closingRoast: String? = nil
 }
 
 @MainActor @Observable
@@ -39,10 +43,11 @@ final class CallSession {
     var receipt: LearningReceipt?
     var savedReceipts: [LearningReceipt] = []
     var memorySummary = "No live learner memory loaded"
-    let topicTitle = "Does every phone upgrade need to be a personality?"
-    let topicContext = "Apple announced iPhone 18 Pro on September 9, with availability from September 18. It highlights camera, battery and performance upgrades. Does that make upgrading worth it—or is the hype doing the work?"
-    let topicDate = "September 18, 2026"
-    let topicSourceURL = URL(string: "https://www.apple.com/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/")!
+    let topicTitle = "AI got productive. What’s your excuse?"
+    let topicContext = "AI agents can help with shopping, bookings and business phone calls. What are humans actually doing with all that saved time?"
+    let topicDate = "September 18, 2026 · Today’s debate"
+    let topicSourceLabel = "Google · AI shopping and calls"
+    let topicSourceURL = URL(string: "https://blog.google/products-and-platforms/products/shopping/agentic-checkout-holiday-ai-shopping/")!
     private var mockStep = 0
     var canRetrySave = false
     @ObservationIgnored private var backend: DemoBackend?
@@ -108,7 +113,7 @@ final class CallSession {
         }
         phase = .active
         status = "Sample conversation"
-        append("Nobody", "Apple announces a new phone and suddenly everyone's old one is a family embarrassment. Are you buying the upgrade, or just judging the people who do?")
+        append("Nobody", "AI agents can shop for you, help book things, and call businesses for you now. Basically your AI has become more productive than you. Thoughts?")
     }
 
     func advanceMock() {
@@ -116,16 +121,16 @@ final class CallSession {
         mockStep += 1
         switch mockStep {
         case 1:
-            append("You", "People is overreacting because Apple don't really change much.")
-            append("Nobody", "Apple sells you the same rectangle; you sell me ‘people is.’ Neither of you respects an upgrade. People ARE. Apple DOESN’T. Try that take again.")
+            append("You", "Humans can spend time for more important things.")
+            append("Nobody", "Spend time FOR? You survived AI replacing humanity just to be murdered by a preposition. You spend time ON something. Try again.")
             status = "Your turn to retry"
         case 2:
-            append("You", "People are overreacting because Apple doesn't really change much.")
-            append("Nobody", "Your sentence got a bigger upgrade than the phone. What would Apple actually have to change to get your money?")
+            append("You", "Humans can spend time on more important things.")
+            append("Nobody", "Beautiful. And what important thing are YOU doing with all this time AI saved you?")
             status = "Conversation continues"
         default:
-            append("You", "Maybe if it felt more คุ้มค่า—you know?")
-            append("Nobody", "You switched to Thai like English just asked for your credit card. ‘Worth the money.’ Fine—what would make this rectangle worth yours?")
+            append("You", "เอ่อ… ทำสิ่งที่มีประโยชน์กว่า")
+            append("Nobody", "Oh. We've lost you to Thailand. Come back—we need English.")
             status = "English + Thai sample"
         }
     }
@@ -161,17 +166,21 @@ final class CallSession {
             return
         }
         let signals: [LearningSignal] = mockStep > 0 ? [LearningSignal(
-            kind: "grammar", signal: "Subject–verb agreement",
-            originalQuote: "People is overreacting because Apple don't really change much.",
-            nativeAlternative: "People are overreacting because Apple doesn't really change much.",
-            retryQuote: mockStep > 1 ? "People are overreacting because Apple doesn't really change much." : "",
+            kind: "grammar", signal: "Spend time on",
+            originalQuote: "Humans can spend time for more important things.",
+            nativeAlternative: "spend time ON",
+            retryQuote: mockStep > 1 ? "Humans can spend time on more important things." : "",
             improvementObserved: mockStep > 1
         )] : []
         receipt = LearningReceipt(id: UUID().uuidString, createdAt: Date().ISO8601Format(),
             topic: topicTitle, signals: signals,
-            usefulExpression: mockStep > 2 ? "Worth the money" : "",
-            culturalTakeaway: mockStep > 0 ? "An upgrade can be a status signal as well as a practical choice." : "",
-            isMock: true)
+            usefulExpression: "",
+            culturalTakeaway: "",
+            isMock: true,
+            cultureLabel: "AI agents",
+            momentOfWeakness: mockStep > 2 ? "Fled to Thai under pressure" : nil,
+            momentOfWeaknessQuote: mockStep > 2 ? "เอ่อ… ทำสิ่งที่มีประโยชน์กว่า" : nil,
+            closingRoast: mockStep > 2 ? "Oh. We've lost you to Thailand. Come back—we need English." : nil)
         phase = .receipt
     }
 
