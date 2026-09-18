@@ -145,12 +145,16 @@ final class CallSession {
                 status = "Finishing your learning receipt…"
                 liveTask = Task { [weak self] in
                     guard let self else { return }
-                    await self.voice?.finishCapture {
+                    let captureComplete = await self.voice?.finishCapture {
                         self.messages.map { ["speaker": $0.speaker, "text": $0.text] }
-                    }
+                    } ?? false
                     self.voice?.stop()
                     self.voice = nil
                     guard !Task.isCancelled, self.phase == .saving else { return }
+                    guard captureComplete else {
+                        self.failLive("Nobody couldn’t finish collecting this call’s learning evidence. No receipt was saved. Please start another call.")
+                        return
+                    }
                     await self.saveLive()
                 }
             }

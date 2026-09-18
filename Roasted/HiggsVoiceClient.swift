@@ -99,8 +99,8 @@ final class HiggsVoiceClient {
     }
 
     /// End audible conversation, then give Higgs a bounded chance to report actual learning evidence.
-    func finishCapture(sourceRecords: () -> [[String: String]]) async {
-        guard connected else { return }
+    func finishCapture(sourceRecords: () -> [[String: String]]) async -> Bool {
+        guard connected else { return false }
         let current = generation
         finishing = true
         finalToolReceived = false
@@ -108,18 +108,18 @@ final class HiggsVoiceClient {
         interruptAssistant()
         // Silence lets server VAD close an utterance the user was finishing at hang-up.
         try? await Task.sleep(for: .milliseconds(700))
-        guard generation == current, !Task.isCancelled else { return }
+        guard generation == current, !Task.isCancelled else { return false }
         do {
             if responseActive {
                 let cancelledResponseID = currentResponseID
                 try await send(["type": "response.cancel"], generation: current)
                 // send() completes delivery, not cancellation. Wait for response.done.
                 for _ in 0..<20 {
-                    guard generation == current, !Task.isCancelled else { return }
+                    guard generation == current, !Task.isCancelled else { return false }
                     if !responseActive || currentResponseID != cancelledResponseID { break }
                     try await Task.sleep(for: .milliseconds(100))
                 }
-                guard !responseActive else { return }
+                guard !responseActive else { return false }
             }
             let records = sourceRecords().filter { ["You", "Nobody"].contains($0["speaker"] ?? "") }
             let data = try JSONSerialization.data(withJSONObject: records)
@@ -141,20 +141,22 @@ final class HiggsVoiceClient {
                          "content": [["type": "input_text", "text": control]]]
             ], generation: current)
             for _ in 0..<20 {
-                guard generation == current, !Task.isCancelled else { return }
+                guard generation == current, !Task.isCancelled else { return false }
                 if finalControlAcknowledged { break }
                 try await Task.sleep(for: .milliseconds(100))
             }
-            guard finalControlAcknowledged else { return }
+            guard finalControlAcknowledged else { return false }
             finalToolReceived = false
             try await send(["type": "response.create"], generation: current)
             for _ in 0..<80 {
-                guard generation == current, !Task.isCancelled, !finalToolReceived else { return }
+                guard generation == current, !Task.isCancelled else { return false }
+                if finalToolReceived { return true }
                 try await Task.sleep(for: .milliseconds(100))
             }
         } catch {
-            // Existing evidence is still usable if the final flush cannot complete.
+            return false
         }
+        return finalToolReceived
     }
 
     func sendToolResult(callID: String, result: String) async throws {
