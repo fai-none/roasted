@@ -56,6 +56,48 @@ test('retry must occur after correction; improvement requires the corrected word
   assert.equal(validateSession(uncorrected).receipt.signals[0].improvementObserved, false);
 });
 
+function duplicateCorrectionFixture() {
+  const input = fixture();
+  input.transcript.push({ id: 'assistant-2', speaker: 'Nobody', text: 'You can also say spend time doing something.' });
+  input.candidates.push({ signals: [{
+    ...input.candidates[0].signals[0], nativeAlternative: 'spend time doing', retryQuote: '', improvementObserved: false,
+  }], usefulExpression: '', culturalTakeaway: '' });
+  return input;
+}
+
+test('a later duplicate correction without a newer learner retry preserves verified improvement', () => {
+  // Reproduces the PCM rehearsal: corrected "on" retry followed by an untried "doing" alternative.
+  const result = validateSession(duplicateCorrectionFixture());
+  assert.equal(result.receipt.signals.length, 1);
+  assert.equal(result.receipt.signals[0].nativeAlternative, 'spend time ON');
+  assert.equal(result.receipt.signals[0].retryQuote, 'I spend time on more important things');
+  assert.equal(result.receipt.signals[0].improvementObserved, true);
+  assert.equal(result.sources[0].correctionItemID, 'assistant-1');
+  assert.equal(result.sources[0].retryItemID, 'user-2');
+});
+
+test('a duplicate reusing the same retry cannot downgrade verified improvement', () => {
+  const input = fixture();
+  input.candidates.push({ signals: [{ ...input.candidates[0].signals[0], improvementObserved: false }] });
+  assert.equal(validateSession(input).receipt.signals[0].improvementObserved, true);
+});
+
+for (const corrected of [true, false]) {
+  test(`a genuinely newer ${corrected ? 'corrected' : 'unsuccessful'} retry can supersede earlier progress`, () => {
+    const input = duplicateCorrectionFixture();
+    const latest = `I spend time ${corrected ? 'doing' : 'for'} more important things`;
+    input.transcript.push({ id: 'user-3', speaker: 'You', text: latest });
+    input.candidates[1].signals[0].retryQuote = latest;
+    input.candidates[1].signals[0].improvementObserved = corrected;
+    const result = validateSession(input);
+    assert.equal(result.receipt.signals.length, 1);
+    assert.equal(result.receipt.signals[0].nativeAlternative, 'spend time doing');
+    assert.equal(result.receipt.signals[0].retryQuote, latest);
+    assert.equal(result.receipt.signals[0].improvementObserved, corrected);
+    assert.equal(result.sources[0].retryItemID, 'user-3');
+  });
+}
+
 test('unmatched supplemental fields are omitted with visible warnings', () => {
   const input = fixture();
   input.candidates[0].culturalTakeaway = 'An invented cultural lesson';

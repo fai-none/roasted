@@ -86,11 +86,17 @@ export function validateSession(input) {
           && Boolean(quoteWithin(nativeAlternative, { text: retryQuote }))
           && normalize(originalQuote) !== normalize(retryQuote),
       };
-      // A later tool call may add a retry to an earlier captured correction.
+      // Tool order is not learner progress: an untried duplicate must not erase a verified retry.
       const existing = signals.findIndex((item) => item.key === key);
       const selected = { key, ...validated };
       const provenance = { originalItemID: original.id, correctionItemID: correction.id, retryItemID: retry?.id ?? null };
-      if (existing >= 0) { signals[existing] = selected; sources[existing] = provenance; }
+      if (existing >= 0) {
+        const previousRetry = transcript.find((item) => item.id === sources[existing].retryItemID);
+        const hasNewerRetry = retry && previousRetry && retry.index > previousRetry.index;
+        if (signals[existing].improvementObserved && !hasNewerRetry) continue;
+        signals[existing] = selected;
+        sources[existing] = provenance;
+      }
       else if (signalKeys.size < 3) { signalKeys.add(key); signals.push(selected); sources.push(provenance); }
     }
   }
