@@ -119,12 +119,16 @@ enum DemoBackendError: LocalizedError {
 @MainActor final class DemoBackend {
     let configuration: DemoConfiguration
     private let session: URLSession
-    init(configuration: DemoConfiguration) {
+    init(configuration: DemoConfiguration, session: URLSession? = nil) {
         self.configuration = configuration
+        if let session {
+            self.session = session
+            return
+        }
         let settings = URLSessionConfiguration.ephemeral
         settings.timeoutIntervalForRequest = 20
         settings.timeoutIntervalForResource = 30
-        session = URLSession(configuration: settings, delegate: DemoTLSDelegate(certificate: configuration.certificate), delegateQueue: nil)
+        self.session = URLSession(configuration: settings, delegate: DemoTLSDelegate(certificate: configuration.certificate), delegateQueue: nil)
     }
 
     func memory() async throws -> MemoryResponse {
@@ -147,7 +151,23 @@ enum DemoBackendError: LocalizedError {
         let body: [String: Any] = ["id": id, "createdAt": createdAt, "topic": topic,
             "transcript": transcript.map { ["id": $0.id, "speaker": $0.speaker, "text": $0.text] },
             "candidates": candidates]
-        return try JSONDecoder().decode(SaveResponse.self, from: await request("sessions", body: body))
+        do {
+            return try JSONDecoder().decode(SaveResponse.self, from: await request("sessions", body: body))
+        } catch {
+            let saveError = error
+            guard !Task.isCancelled else { throw saveError }
+            if case let DemoBackendError.requestFailed(status, _) = saveError, (400..<500).contains(status) {
+                throw saveError
+            }
+            // The transaction may have committed even when its response was lost.
+            // Confirm this exact call with a fresh read; never invent a receipt or
+            // submit a second session to make an uncertain save look successful.
+            if let saved = try? await memory(),
+               let receipt = saved.receipts.first(where: { $0.id == id }) {
+                return SaveResponse(receipt: receipt, memory: saved.memory, warnings: nil)
+            }
+            throw saveError
+        }
     }
 
     private func request(_ path: String, body: [String: Any]? = nil) async throws -> Data {

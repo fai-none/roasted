@@ -20,3 +20,5 @@ AI TODOs:
 Phone auto-lock fix `ae03880` is built, installed and launched; actual interval check pending. Most recent real call saved a Thai excerpt but no learning signals. No new vendor, architecture, background calling, full transcript retention or publication. Exact donor and Snapshotv6 remain unchanged; authenticated dashboard tools remain unavailable.
 
 Active blocker21:58UTC: founder says roast is better, but same paragraph repeats and YOU captions do not update. Diagnose microphone→PCMsend→VAD/STT with local metadata-only counters before changing the personality again. Preserve alreadybuilt audio/sleep behavior; no speculative engine restart until evidence identifies a stall.
+
+22:12UTC diagnostic rehearsal heard13turns with no dropped audio; founder confirms responses matched new speech. Exact saved receipt exists despite unconfirmed-save UI. Current task: recover only an uncertain save whose exact call ID is confirmed by a fresh InsForge read, test missing-receipt/validation-failure paths, install, then perform one real correction/retry and fresh-call recall.

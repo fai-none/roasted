@@ -23,3 +23,11 @@
 - Evidence: `scripts/higgs-personality-smoke.mjs --novel` and `--family`; `docs/evidence/personality/2026-09-18T20-36-38.775Z.json` shows the unrelated film reference. Removing that specific payoff stopped it in subsequent retained runs, but humor remained uneven.
 - Apply when: Tuning examples for a conversational character or evaluating a demo against a founder-written ideal call.
 - Avoid: Calling a prompt successful solely because the model reproduces the supplied conversation, or weakening quote validation to make its learning receipt look better.
+
+## A missing save response does not prove a missing database write
+
+- Context: A physical Roasted call showed “no save was confirmed”, while a fresh InsForge read found that exact call receipt committed.
+- Lesson: Treat a lost acknowledgement as uncertain. Confirm by reading the same session ID; an unrelated receipt or a successful voice call proves nothing about that write. Preserve the original error if confirmation fails.
+- Evidence: `DemoBackend.save` performs one read after an uncertain save; `DemoBackendSaveRecoveryChecks` covers exact-ID recovery, unrelated receipts and validation rejection. The actual device/database observation is in `docs/implementation-evidence.md`.
+- Apply when: A client reports failure after a transactional save or loses connectivity around hang-up.
+- Avoid: Creating a new session ID to retry, fabricating a receipt, or turning an explicit validation rejection into success.
