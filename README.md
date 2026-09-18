@@ -24,7 +24,7 @@ The founder approved **in-app incoming calls** for the hackathon MVP. Background
 
 Open `Roasted.xcodeproj`, choose the `Roasted` scheme and an installed iPhone simulator, then Run. No keys are required for the static mock journey. To regenerate the project after adding Swift files: `xcodegen generate`.
 
-For iPhone 14, select your own development team in Xcode Signing & Capabilities and your connected device. Physical-device installation has not yet been verified. No donor signing identity is copied.
+For iPhone 14, sign into Xcode Apple Accounts, select your own development team in Signing & Capabilities and your connected device. Signed installation and private launch succeeded on the founder's iPhone 14 Pro on September 18; the real two-call rehearsal remains open. No donor signing identity is copied.
 
 ## Run the live demo backend
 

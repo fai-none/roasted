@@ -76,3 +76,9 @@ The final-capture protocol now uses a distinct application-control item because 
 This does **not** prove a real learner's two-call voice interaction. The provider still guessed an unsupported phone model in one synthetic greeting; comedy quality and factual restraint are not accepted. An earlier tool candidate selected commentary about a Thai word as the English alternative; tightened instructions removed that signal in the final run. Backend quote validation remains unchanged.
 
 **Next concrete gate:** sign into Xcode Apple Accounts so the connected iPhone 14 Pro can be provisioned, then perform `docs/demo-rehearsal.md`. Device signing/install, phone microphone/speaker/interruption, actual learner save/callback, cold-launch receipt/Keychain, and founder roast/receipt/final acceptance remain unverified. Dashboard writes remain unavailable; canonical Snapshot v6 and the donor remain untouched. Nothing published or submitted.
+
+## Signed physical-device installation — 20:08 UTC
+
+Founder completed Xcode account sign-in. The physical iPhone 14 Pro is connected. `xcodebuild` for CoreDevice `B53111E4-BE2B-5489-98CD-ED53A2BA07A0`, cache `/tmp/RoastedDeviceData`, automatic provisioning, and the user's existing development team completed successfully. `devicectl device install app` confirmed `dev.roasted.demo` installed; the private launch script reported success. The local authenticated HTTPS health check returned 200. Signing configuration was passed locally, not copied from the donor or embedded in project source.
+
+Founder was asked to allow local-network/microphone access and verify Home, hearing Nobody, and a response to actual speech. These observations are pending. Installation/launch success does not prove phone audio, receipt persistence, second-call influence or human acceptance. Implementation revision: `adfbad9`.

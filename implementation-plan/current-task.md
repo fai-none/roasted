@@ -8,7 +8,7 @@ Current AI TODOs:
 - [x] Implement native PCM capture/playback and Higgs transport; fix observed route-change and Swift callback crashes. Simulator runtime tests and muted native live greeting pass.
 - [x] Integrate private local HTTPS access, fresh InsForge reads and atomic selected-evidence saves. Two-call synthetic provider/database chain passes; configured learner remains unseeded.
 - [x] Build integrated app; 2 iOS tests and 11 backend tests pass. Commit the reviewable implementation and retain proof tiers.
-- [ ] Install on connected iPhone after founder signs into Xcode Apple Accounts; no account/profile is currently available.
+- [x] Founder signed into Xcode; signed build, install and private launch succeeded on the connected iPhone 14 Pro at 20:08 UTC.
 - [ ] Exercise real microphone-in/speech-out, interruption, clean end/restart, then real two-call saved memory and receipt reopening. Record observations; founder quality/fidelity acceptance remains pending.
 
 Dashboard reconciliation is blocked by missing authenticated task tools; Snapshot v6 remains untouched. Evidence is in `docs/implementation-evidence.md`.
