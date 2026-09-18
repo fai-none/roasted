@@ -4,7 +4,7 @@ Status: **pending**. Planning only; do not implement until the founder starts im
 
 ## Bounded task
 
-Create the smallest clean native iOS app target in this repository, with its own identity and a single Home placeholder. Native iOS is the planning assumption based on the inspected SwiftUI donor. Do not clone the donor product or copy its project wholesale.
+Create the smallest clean native iOS app target in this repository, with its own identity and a single Home placeholder. Native iOS was explicitly confirmed by the founder on 2026-09-18. Do not clone the donor product or copy its project wholesale.
 
 ## Read first
 

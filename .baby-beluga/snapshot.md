@@ -1,4 +1,4 @@
-# Nobody — Higgs Hackathon Product Snapshot
+# Roast Product Snapshot
 
 ```json
 {
@@ -6,7 +6,7 @@
   "updatedAt": "2026-09-18",
   "product": {
     "id": "nobody-higgs-hackathon",
-    "name": "Nobody — Higgs Hackathon",
+    "name": "Roast",
     "purpose": "Nobody calls daily: a savage friend helps fluent English speakers sound natural and culturally fluent through live Higgs conversations.",
     "screenFormat": "mobile"
   },
@@ -155,8 +155,8 @@
       "home"
     ],
     "implementationPlanPath": "implementation-plan/m0-foundation.md",
-    "humanWants": "Next implementation session: create an independent launchable app using only Nobody’s minimal SwiftUI target/root patterns. Keep the donor read-only. Reuse/adapt/discard decisions and every M0–M5 task contract are in the referenced brief. No app implementation has started.",
-    "originalHumanWants": "Goal: create a clean new hackathon app while selectively reusing proven Nobody implementation.\n\nExamples:\n\n- establish new repo/project\n- app builds and launches\n- port design system/assets needed for MVP\n- port/adapt reusable Nobody UI components\n- establish architecture for Higgs integration\n- remove dependency on irrelevant old product architecture",
+    "humanWants": "Next implementation session: create an independent native iOS app using only Nobody’s minimal SwiftUI target/root patterns. Native iOS is confirmed by the founder. Keep the donor read-only. See the referenced brief for M0–M5 task contracts. No app implementation has started.",
+    "originalHumanWants": "Goal: create a clean new hackathon app while selectively reusing proven Nobody implementation.\n\nExamples:\n\n- establish new repo/project\n- app builds and launches\n- port design system/assets needed for MVP\n- port/adapt reusable Nobody UI components\n- establish architecture for Higgs integration\n- remove dependency on irrelevant old product architecture\n\n- native ios is correct",
     "requests": [
       {
         "id": "clean-target",
@@ -186,6 +186,17 @@
         "text": "app builds and launches",
         "aiTodoIds": [
           "m0-launch-proof"
+        ],
+        "humanCheckIds": [],
+        "journeyStepIds": [
+          "home"
+        ]
+      },
+      {
+        "id": "native-ios-confirmed",
+        "text": "native ios is correct",
+        "aiTodoIds": [
+          "m0-target"
         ],
         "humanCheckIds": [],
         "journeyStepIds": [

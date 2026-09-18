@@ -20,3 +20,9 @@ Existing Beluga MCP is scoped to Beluga's own repository. New-project registrati
 The active task carries M0.1 detail. Future milestone task contracts are in `docs/execution-brief.md`, since Beluga's existing future milestone representation holds compact summaries only. No future task was inserted into history to impersonate prior work.
 
 Remaining human inputs: daily-call delivery mode; Higgs access and permitted live-test use before M2; official event URL/deadline/rubric before M5. Native iOS remains the documented planning assumption based on the SwiftUI donor. No app build, physical-device flow, live provider behavior, background delivery, submission or founder UX acceptance is claimed.
+
+## Subsequent founder update — Roast / native iOS
+
+The founder requested the name Roast and confirmed native iOS. The existing repository was moved to `/Users/fai/Documents/GitHub/Roast`; the same project ID and dashboard URL were preserved. Canonical proposal/export saved the name and iOS intent, then the existing registration service imported that saved Snapshot against the new path (Snapshot v3, in sync). The four unrelated project Snapshots were unchanged. The project-picker metadata name was updated with a project.renamed audit event because no project rename command exists; canonical Snapshot changes still used the proposal/export services. Prior proposal, feedback and decision history was retained.
+
+Live browser reload verified the Roast heading and Roast project-picker option. Git has no remote: the repository exists locally only. Daily-call mode remains undecided; the in-app recommendation was not recorded as human approval. No app was implemented.

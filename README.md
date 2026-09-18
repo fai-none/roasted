@@ -1,4 +1,4 @@
-# Nobody — Higgs Hackathon
+# Roast
 
 Planning-only repository. No hackathon application has been implemented or built.
 
@@ -14,6 +14,6 @@ Primary track: **Breaking the Language Barrier**. Secondary strength: **Most Hum
 - [First implementation task](implementation-plan/m0-foundation.md): clean app bootstrap.
 - [Original request](docs/original-request.md): complete unabridged founder wording.
 
-The donor is read-only. This repository is distinct from Nobody and Baby Beluga. No app source, asset copy, provider call, key, deployment or new MCP configuration was created during planning. App implementation requires a subsequent instruction to start. The planning assumption is a native iOS app because the inspected donor UI is SwiftUI; platform choice remains changeable before implementation.
+The donor is read-only. This repository is distinct from Nobody and Baby Beluga. No app source, asset copy, provider call, key, deployment or new MCP configuration was created during planning. App implementation requires a subsequent instruction to start. The founder confirmed native iOS on 2026-09-18. The local repository is Roast; no GitHub remote has been created.
 
 M0 is current but not reached. Future milestones are planned, not completed. The visible journey is intended MVP behavior, not existing implementation. Mock UX proof, live audio proof, device/background-call proof and founder acceptance must remain separate.

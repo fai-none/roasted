@@ -8,7 +8,7 @@ For conversationally fluent non-native English speakers: one daily culture conve
 
 Higgs is the live speech-to-speech conversation engine, not a TTS layer. Do not add a separate lesson/chat product, social graph, sender/receiver flow, roast-a-friend, App Clip, sharing or callback scheduling. Optional live topic tools come after the core demo works. Keep one app, one small session boundary and the minimum trusted credential endpoint needed by the actual provider contract.
 
-Planning assumption: native iOS, because the donor is SwiftUI. Daily-call delivery is **not resolved**: in-app incoming call versus real scheduled/background call must be selected before its implementation. The plan does not claim a foreground simulation satisfies background daily delivery. No date, credential availability, organizer rule or official judging threshold has been invented.
+Confirmed platform: native iOS (founder decision, 2026-09-18). Daily-call delivery is **not resolved**: in-app incoming call versus real scheduled/background call must be selected before its implementation. The plan does not claim a foreground simulation satisfies background daily delivery. No date, credential availability, organizer rule or official judging threshold has been invented.
 
 ## Journey
 
