@@ -16,6 +16,7 @@ const novel = process.argv.includes('--novel');
 const family = process.argv.includes('--family');
 const probe = process.argv.includes('--probe');
 const repeatProbe = process.argv.includes('--repeat-probe');
+const sfProbe = process.argv.includes('--sf-probe');
 const temperatureArgument = process.argv.find((argument) => argument.startsWith('--temperature='));
 const temperature = temperatureArgument ? Number(temperatureArgument.split('=')[1]) : undefined;
 if (temperatureArgument && (!Number.isFinite(temperature) || temperature < 0)) throw new Error('Temperature must be a nonnegative number.');
@@ -23,7 +24,7 @@ const connections = [];
 const evidenceFile = `docs/evidence/personality/${startedAt.replaceAll(':', '-')}.json`;
 const evidence = {
   evidenceTier: 'LIVE HIGGS WITH SYNTHETIC TYPED INPUT. NOT MICROPHONE, DEVICE OR HUMAN COMEDY ACCEPTANCE.',
-  startedAt, novel, family, probe, repeatProbe, requestedTemperature: temperature ?? null, outcome: 'pending', topic,
+  startedAt, novel, family, probe, repeatProbe, sfProbe, requestedTemperature: temperature ?? null, outcome: 'pending', topic,
   promptSHA256: createHash('sha256').update(await readFile('server/prompt.mjs')).digest('hex'),
 };
 async function connect(memory = []) {
@@ -143,7 +144,12 @@ let call;
 try {
   call = await connect();
   await call.greet();
-  const inputs = repeatProbe ? [
+  const inputs = sfProbe ? [
+    'Yesterday I go on a date with a founder. He talked about his startup for two hours.',
+    'Yesterday I went on a date with a founder.',
+    'He asked me to play pickleball and then pitched me his AI dating app in a completely flat voice.',
+    'I told him I wanted chemistry, not a product roadmap.',
+  ] : repeatProbe ? [
     'My AI picked this opinion for me: AI agents are useful.',
     'Actually, I disagree. I choose my own opinions. I only want help booking a dentist appointment.',
     'New information: I am cooking dinner right now, and I need a recipe with eggs.',

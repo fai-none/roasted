@@ -1,0 +1,262 @@
+{
+  "evidenceTier": "LIVE HIGGS WITH SYNTHETIC TYPED INPUT. NOT MICROPHONE, DEVICE OR HUMAN COMEDY ACCEPTANCE.",
+  "startedAt": "2026-09-18T22:46:03.431Z",
+  "novel": false,
+  "family": false,
+  "probe": false,
+  "repeatProbe": false,
+  "sfProbe": true,
+  "requestedTemperature": null,
+  "outcome": "completed",
+  "topic": {
+    "title": "SF dating: emotionally available. In private beta.",
+    "date": "2026-09-18",
+    "context": "AI agents can help with shopping, bookings and business phone calls; Google announced agentic shopping and store calling in November 2025. The cultural debate is whether outsourcing life also outsources having a personality. SF startup dating, pickleball networking and monotone pitch-deck small talk are comic satire, not sourced claims about every resident. No named person or invented news. Would you let AI write your dating messages, or would two agents end up dating each other?",
+    "sourceURL": "https://blog.google/products-and-platforms/products/shopping/agentic-checkout-holiday-ai-shopping/",
+    "expression": "went on a date",
+    "opening": "In San Francisco, even flirting sounds like a product demo. Emotionally available? Currently in private beta. Would you let an AI handle your dating life?"
+  },
+  "promptSHA256": "9fae4b1d98a43f4b00e39d8061ff015751ace4101d2b8f9d7fced7c65a2b09e8",
+  "acknowledgedSession": {
+    "model": "higgs-realtime",
+    "temperature": 0.3,
+    "outputModalities": [
+      "audio"
+    ]
+  },
+  "captureLatencyMS": 1735,
+  "validation": {
+    "receipt": {
+      "id": "284e246e-11d3-4192-a606-c1d25c8f3000",
+      "createdAt": "2026-09-18T22:46:03.431Z",
+      "topic": "SF dating: emotionally available. In private beta.",
+      "signals": [
+        {
+          "kind": "grammar",
+          "signal": "Yesterday I go",
+          "originalQuote": "Yesterday I go on a date with a founder",
+          "nativeAlternative": "Yesterday I WENT",
+          "retryQuote": "Yesterday I went on a date with a founder",
+          "improvementObserved": true
+        }
+      ],
+      "usefulExpression": "",
+      "culturalTakeaway": "In San Francisco, even flirting sounds like a product demo. Emotionally available? Currently in private beta",
+      "isMock": true,
+      "cultureLabel": "",
+      "momentOfWeakness": "",
+      "momentOfWeaknessQuote": "",
+      "closingRoast": "Chemistry, not a product roadmap? That's like asking for a hug instead of a spreadsheet"
+    },
+    "warnings": [
+      "The useful expression could not be matched to Nobody's actual words and was omitted."
+    ],
+    "rejectedSignals": 0
+  },
+  "call": {
+    "transcript": [
+      {
+        "id": "0a968d4a",
+        "speaker": "Nobody",
+        "text": "Hey. In San Francisco, even flirting sounds like a product demo. Emotionally available? Currently in private beta. Would you let an AI handle your dating life?"
+      },
+      {
+        "id": "synthetic_user_9a42034b-ea84-4e66-8efb-a69085c95774",
+        "speaker": "You",
+        "text": "Yesterday I go on a date with a founder. He talked about his startup for two hours."
+      },
+      {
+        "id": "d18642dd",
+        "speaker": "Nobody",
+        "text": "Yesterday I GO? Your date has no future and your sentence has no past. Say 'Yesterday I WENT on a date.' Try again."
+      },
+      {
+        "id": "synthetic_user_d66de464-27f0-4b09-a1ee-0af43e6515c5",
+        "speaker": "You",
+        "text": "Yesterday I went on a date with a founder."
+      },
+      {
+        "id": "17db2dbe",
+        "speaker": "Nobody",
+        "text": "Nice. So you went on a date with a founder who talked about his startup for two hours. That's like a TED Talk with snacks. Did you at least get a business card or a napkin with his valuation?"
+      },
+      {
+        "id": "synthetic_user_dde71f60-8f83-417d-aa44-37416ee1ea98",
+        "speaker": "You",
+        "text": "He asked me to play pickleball and then pitched me his AI dating app in a completely flat voice."
+      },
+      {
+        "id": "2b47a2af",
+        "speaker": "Nobody",
+        "text": "A flat voice? That's the most exciting thing about his AI dating app. I'm sure it's got a feature where it just says \"I'm not interested\" in a monotone."
+      },
+      {
+        "id": "synthetic_user_544d9093-8c3a-4f92-a0fd-0816a7c75c87",
+        "speaker": "You",
+        "text": "I told him I wanted chemistry, not a product roadmap."
+      },
+      {
+        "id": "3dc1bb16",
+        "speaker": "Nobody",
+        "text": "Chemistry, not a product roadmap? That's like asking for a hug instead of a spreadsheet. Did he at least have a feature for that?"
+      }
+    ],
+    "candidates": [
+      {
+        "signals": [
+          {
+            "kind": "grammar",
+            "signal": "Yesterday I go",
+            "originalQuote": "Yesterday I go on a date with a founder.",
+            "nativeAlternative": "Yesterday I WENT",
+            "retryQuote": "Yesterday I went on a date with a founder.",
+            "improvementObserved": true
+          }
+        ],
+        "usefulExpression": "I told him I wanted chemistry, not a product roadmap.",
+        "culturalTakeaway": "In San Francisco, even flirting sounds like a product demo. Emotionally available? Currently in private beta.",
+        "closingRoast": "Chemistry, not a product roadmap? That's like asking for a hug instead of a spreadsheet."
+      }
+    ],
+    "audioBytes": 2488320,
+    "eventCounts": {
+      "session.created": 1,
+      "response.created": 6,
+      "response.output_item.added": 6,
+      "conversation.item.added": 11,
+      "response.content_part.added": 5,
+      "response.output_audio_transcript.delta": 15,
+      "response.output_audio.delta": 1049,
+      "response.output_audio_transcript.length": 15,
+      "response.output_audio_transcript.done": 5,
+      "response.output_audio.done": 5,
+      "response.content_part.done": 5,
+      "response.output_item.done": 6,
+      "response.done": 6,
+      "response.function_call_arguments.delta": 1,
+      "response.function_call_arguments.done": 1
+    },
+    "responseSummaries": [
+      {
+        "responseID": "f460_resp_1",
+        "inputTurn": 0,
+        "finishing": false,
+        "status": "completed",
+        "toolCalls": [],
+        "outputItemIDs": [
+          "0a968d4a"
+        ]
+      },
+      {
+        "responseID": "f460_resp_3",
+        "inputTurn": 1,
+        "finishing": false,
+        "status": "completed",
+        "toolCalls": [],
+        "outputItemIDs": [
+          "d18642dd"
+        ]
+      },
+      {
+        "responseID": "f460_resp_5",
+        "inputTurn": 2,
+        "finishing": false,
+        "status": "completed",
+        "toolCalls": [],
+        "outputItemIDs": [
+          "17db2dbe"
+        ]
+      },
+      {
+        "responseID": "f460_resp_7",
+        "inputTurn": 3,
+        "finishing": false,
+        "status": "completed",
+        "toolCalls": [],
+        "outputItemIDs": [
+          "2b47a2af"
+        ]
+      },
+      {
+        "responseID": "f460_resp_9",
+        "inputTurn": 4,
+        "finishing": false,
+        "status": "completed",
+        "toolCalls": [],
+        "outputItemIDs": [
+          "3dc1bb16"
+        ]
+      },
+      {
+        "responseID": "f460_resp_11",
+        "inputTurn": 4,
+        "finishing": true,
+        "status": "completed",
+        "toolCalls": [
+          {
+            "name": "capture_learning",
+            "callID": "chatcmpl-tool-658d3a090ba14c16b9d34cc19372a3f8"
+          }
+        ],
+        "outputItemIDs": [
+          "d4bd8503-76d8-4672-8eb8-40f2312dea3a"
+        ]
+      }
+    ],
+    "transcriptEvents": [
+      {
+        "responseID": "f460_resp_1",
+        "itemID": "0a968d4a",
+        "inputTurn": 0,
+        "text": "Hey. In San Francisco, even flirting sounds like a product demo. Emotionally available? Currently in private beta. Would you let an AI handle your dating life?"
+      },
+      {
+        "responseID": "f460_resp_3",
+        "itemID": "d18642dd",
+        "inputTurn": 1,
+        "text": "Yesterday I GO? Your date has no future and your sentence has no past. Say 'Yesterday I WENT on a date.' Try again."
+      },
+      {
+        "responseID": "f460_resp_5",
+        "itemID": "17db2dbe",
+        "inputTurn": 2,
+        "text": "Nice. So you went on a date with a founder who talked about his startup for two hours. That's like a TED Talk with snacks. Did you at least get a business card or a napkin with his valuation?"
+      },
+      {
+        "responseID": "f460_resp_7",
+        "itemID": "2b47a2af",
+        "inputTurn": 3,
+        "text": "A flat voice? That's the most exciting thing about his AI dating app. I'm sure it's got a feature where it just says \"I'm not interested\" in a monotone."
+      },
+      {
+        "responseID": "f460_resp_9",
+        "itemID": "3dc1bb16",
+        "inputTurn": 4,
+        "text": "Chemistry, not a product roadmap? That's like asking for a hug instead of a spreadsheet. Did he at least have a feature for that?"
+      }
+    ]
+  },
+  "assistantTurns": [
+    {
+      "text": "Hey. In San Francisco, even flirting sounds like a product demo. Emotionally available? Currently in private beta. Would you let an AI handle your dating life?",
+      "wordCount": 26
+    },
+    {
+      "text": "Yesterday I GO? Your date has no future and your sentence has no past. Say 'Yesterday I WENT on a date.' Try again.",
+      "wordCount": 23
+    },
+    {
+      "text": "Nice. So you went on a date with a founder who talked about his startup for two hours. That's like a TED Talk with snacks. Did you at least get a business card or a napkin with his valuation?",
+      "wordCount": 39
+    },
+    {
+      "text": "A flat voice? That's the most exciting thing about his AI dating app. I'm sure it's got a feature where it just says \"I'm not interested\" in a monotone.",
+      "wordCount": 29
+    },
+    {
+      "text": "Chemistry, not a product roadmap? That's like asking for a hug instead of a spreadsheet. Did he at least have a feature for that?",
+      "wordCount": 24
+    }
+  ],
+  "completedAt": "2026-09-18T22:46:14.312Z"
+}

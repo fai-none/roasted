@@ -7,12 +7,12 @@ import { createStore } from './store.mjs';
 import { DemoError, validateSession } from './validation.mjs';
 
 export const topic = {
-  title: 'Would you outsource being an adult?',
+  title: 'SF dating: emotionally available. In private beta.',
   date: '2026-09-18',
-  context: 'AI agents can help with shopping, bookings and business phone calls. Google announced agentic shopping and store calling on November 13, 2025, and booking assistance for restaurants, event tickets and appointments on November 17, 2025. Availability varies by market and service; these are established examples, not news announced today. What will humans actually do with the time saved?',
+  context: 'AI agents can help with shopping, bookings and business phone calls; Google announced agentic shopping and store calling in November 2025. The cultural debate is whether outsourcing life also outsources having a personality. SF startup dating, pickleball networking and monotone pitch-deck small talk are comic satire, not sourced claims about every resident. No named person or invented news. Would you let AI write your dating messages, or would two agents end up dating each other?',
   sourceURL: 'https://blog.google/products-and-platforms/products/shopping/agentic-checkout-holiday-ai-shopping/',
-  expression: 'spend time on something',
-  opening: 'AI agents can make your phone calls and do your shopping. We call it the future. It sounds like adults buying a replacement adult. What are you outsourcing first?',
+  expression: 'went on a date',
+  opening: 'In San Francisco, even flirting sounds like a product demo. Emotionally available? Currently in private beta. Would you let an AI handle your dating life?',
 };
 
 async function readJSON(request) {

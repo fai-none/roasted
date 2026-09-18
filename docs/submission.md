@@ -27,7 +27,7 @@ Humor quality remains variable; the founder has reported improvement, not final 
 Use the live app, not its labeled sample mode. Keep the Mac broker running and the app foreground. For Simulator, use headphones: Mac speaker output caused rapid false interruptions in the recording rehearsal. Keep Simulator input on MacBook Air Microphone and output on System with headphones selected. The recorder must capture system audio plus microphone audio.
 
 1. **0:00–0:10 — Hook:** “English apps let you practice. Roasted gives you someone worth arguing with.” Show Home and accept Nobody’s call.
-2. **0:10–0:45 — Conversation:** Answer the topic honestly. Give one real spoken mistake, such as “Humans can spend time for more important things.” Let Nobody finish, then retry the actual correction. A Thai reaction is optional.
+2. **0:10–0:45 — Conversation:** Answer the topic honestly. Give one real spoken mistake, such as “Yesterday I go on a date with a founder. He talked about his startup for two hours.” Let Nobody finish, then retry the actual correction. A Thai reaction is optional.
 3. **0:45–1:00 — Receipt:** End after the retry caption appears. Show “Saved in InsForge” and the exact original/correction/retry.
 4. **1:00–1:25 — Memory:** Return Home and begin a new call. Ask “What did I improve last time?” without giving the target phrase first. Capture its actual callback.
 5. **1:25–1:35 — Explain:** “Higgs makes the conversation possible. InsForge makes the next conversation remember. Same learner, new call, real saved progress.”
@@ -52,7 +52,7 @@ Fresh-machine setup, signing and verification commands are in `README.md`. No ke
 
 ## Scope and attribution
 
-This is a foreground, manually triggered demo with one configured learner and a curated AI-agent discussion. It has no background scheduled calls, public hosted backend or account system. An awake Mac broker and provider credentials are required.
+This is a foreground, manually triggered demo with one configured learner and a curated AI/SF-tech dating discussion. It has no background scheduled calls, public hosted backend or account system. An awake Mac broker and provider credentials are required.
 
 Reused Nobody visual primitives, mascot artwork, call-control presentation and personality patterns from the exact donor revision documented in `docs/reuse-map.md`. Higgs transport, InsForge persistence and the demo app are implemented here; unrelated social, receiver, App Clip and backend architecture were excluded.
 
