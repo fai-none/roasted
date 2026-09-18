@@ -3,6 +3,7 @@
 // Add --novel to exercise paraphrases outside the prompt's reference conversation.
 // Add --family to disagree with the premise and choose a different use of saved time.
 // Add --probe for unscripted confusion, pushback, Thai clarification and correct English.
+// Add --repeat-probe to track responses and tool continuations across eight distinct replies.
 // Add --temperature=0.8 to compare provider variation; the acknowledged setting is recorded.
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { randomUUID, createHash } from 'node:crypto';
@@ -14,6 +15,7 @@ const startedAt = new Date().toISOString();
 const novel = process.argv.includes('--novel');
 const family = process.argv.includes('--family');
 const probe = process.argv.includes('--probe');
+const repeatProbe = process.argv.includes('--repeat-probe');
 const temperatureArgument = process.argv.find((argument) => argument.startsWith('--temperature='));
 const temperature = temperatureArgument ? Number(temperatureArgument.split('=')[1]) : undefined;
 if (temperatureArgument && (!Number.isFinite(temperature) || temperature < 0)) throw new Error('Temperature must be a nonnegative number.');
@@ -21,7 +23,7 @@ const connections = [];
 const evidenceFile = `docs/evidence/personality/${startedAt.replaceAll(':', '-')}.json`;
 const evidence = {
   evidenceTier: 'LIVE HIGGS WITH SYNTHETIC TYPED INPUT. NOT MICROPHONE, DEVICE OR HUMAN COMEDY ACCEPTANCE.',
-  startedAt, novel, family, probe, requestedTemperature: temperature ?? null, outcome: 'pending', topic,
+  startedAt, novel, family, probe, repeatProbe, requestedTemperature: temperature ?? null, outcome: 'pending', topic,
   promptSHA256: createHash('sha256').update(await readFile('server/prompt.mjs')).digest('hex'),
 };
 async function connect(memory = []) {
@@ -40,6 +42,9 @@ async function connect(memory = []) {
   const transcript = [];
   const candidates = [];
   const eventCounts = {};
+  const responseSummaries = [];
+  const transcriptEvents = [];
+  let inputTurn = 0;
   let audioBytes = 0;
   let finishing = false;
   const send = (event) => socket.send(JSON.stringify(event));
@@ -50,7 +55,13 @@ async function connect(memory = []) {
     if (event.type === 'response.output_audio.delta') audioBytes += Buffer.from(event.delta, 'base64').length;
     if (event.type === 'response.output_audio_transcript.done' && !finishing) {
       transcript.push({ id: event.item_id, speaker: 'Nobody', text: event.transcript });
+      transcriptEvents.push({ responseID: event.response_id ?? null, itemID: event.item_id, inputTurn, text: event.transcript });
     }
+    if (event.type === 'response.done') responseSummaries.push({
+      responseID: event.response?.id ?? null, inputTurn, finishing, status: event.response?.status ?? null,
+      toolCalls: (event.response?.output ?? []).filter((item) => item.type === 'function_call').map((item) => ({ name: item.name, callID: item.call_id })),
+      outputItemIDs: (event.response?.output ?? []).map((item) => item.id),
+    });
     deliver(event);
   });
   socket.addEventListener('close', () => deliver({ type: 'closed' }));
@@ -92,7 +103,7 @@ async function connect(memory = []) {
   }
   async function userTurn(text, control = false) {
     const id = `${control ? 'application_control' : 'synthetic_user'}_${randomUUID()}`;
-    if (!control) transcript.push({ id, speaker: 'You', text });
+    if (!control) { inputTurn += 1; transcript.push({ id, speaker: 'You', text }); }
     send({ type: 'conversation.item.create', item: { id, type: 'message', role: 'user', content: [{ type: 'input_text', text }] } });
     await waitFor('conversation.item.added', id);
     send({ type: 'response.create' });
@@ -123,7 +134,7 @@ async function connect(memory = []) {
       await userTurn(control, true);
       return Date.now() - start;
     },
-    report() { return { transcript, candidates, audioBytes, eventCounts }; },
+    report() { return { transcript, candidates, audioBytes, eventCounts, responseSummaries, transcriptEvents }; },
     close() { socket.close(); },
   };
 }
@@ -132,7 +143,16 @@ let call;
 try {
   call = await connect();
   await call.greet();
-  const inputs = probe ? [
+  const inputs = repeatProbe ? [
+    'My AI picked this opinion for me: AI agents are useful.',
+    'Actually, I disagree. I choose my own opinions. I only want help booking a dentist appointment.',
+    'New information: I am cooking dinner right now, and I need a recipe with eggs.',
+    'Please say the word banana once so I know you heard this new message.',
+    'I did not ask about my opinions. I asked you to say banana.',
+    'Why are you repeating yourself? Respond to this question, not my first message.',
+    'Let us change the subject. My favorite movie is Spider-Man, and I watched it yesterday.',
+    'Tell me which movie I just mentioned, in one short sentence.',
+  ] : probe ? [
     "I don't know.",
     'What do you mean by AI agents? Give me one example.',
     "You keep calling humans lazy. You don't actually know anything about my day.",

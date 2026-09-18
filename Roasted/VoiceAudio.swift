@@ -1,6 +1,62 @@
 @preconcurrency import AVFoundation
 import Foundation
 
+struct VoiceCaptureSnapshot: Codable, Sendable {
+    var tapCallbacks = 0
+    var audibleTapCallbacks = 0
+    var lastInputPeak: Float = 0
+    var maximumInputPeak: Float = 0
+    var inputPeakSinceLastReport: Float = 0
+    var lastTapAt: TimeInterval = 0
+    var convertedChunks = 0
+    var convertedBytes = 0
+    var nonSilentConvertedChunks = 0
+    var lastConversionAt: TimeInterval = 0
+}
+
+/// Only aggregate health metadata crosses from the real-time tap to the UI actor.
+private final class VoiceCaptureHealth: @unchecked Sendable {
+    private let lock = NSLock()
+    private var value = VoiceCaptureSnapshot()
+    var snapshot: VoiceCaptureSnapshot {
+        lock.withLock {
+            let snapshot = value
+            value.inputPeakSinceLastReport = 0
+            return snapshot
+        }
+    }
+    func reset() { lock.withLock { value = VoiceCaptureSnapshot() } }
+
+    func tapped(_ buffer: AVAudioPCMBuffer) {
+        var peak: Float = 0
+        if let channel = buffer.floatChannelData?[0] {
+            for index in 0..<Int(buffer.frameLength) { peak = max(peak, abs(channel[index])) }
+        } else if let channel = buffer.int16ChannelData?[0] {
+            for index in 0..<Int(buffer.frameLength) { peak = max(peak, abs(Float(channel[index])) / 32_768) }
+        }
+        let now = Date().timeIntervalSince1970
+        lock.withLock {
+            value.tapCallbacks += 1
+            if peak >= 0.01 { value.audibleTapCallbacks += 1 }
+            value.lastInputPeak = peak
+            value.maximumInputPeak = max(value.maximumInputPeak, peak)
+            value.inputPeakSinceLastReport = max(value.inputPeakSinceLastReport, peak)
+            value.lastTapAt = now
+        }
+    }
+
+    func converted(_ data: Data) {
+        let nonSilent = data.contains { $0 != 0 }
+        let now = Date().timeIntervalSince1970
+        lock.withLock {
+            value.convertedChunks += 1
+            value.convertedBytes += data.count
+            if nonSilent { value.nonSilentConvertedChunks += 1 }
+            value.lastConversionAt = now
+        }
+    }
+}
+
 enum VoiceAudioError: LocalizedError {
     case microphoneDenied, unavailable, conversion
     case playbackUnavailable(engineRunning: Bool, hasPlayer: Bool, byteCount: Int)
@@ -72,6 +128,7 @@ final class VoiceAudio {
     var onPlaybackFinished: (() -> Void)?
     var onPlaybackDiscarded: (() -> Void)?
     var isPlaying: Bool { scheduledBuffers > 0 }
+    var captureDiagnostics: VoiceCaptureSnapshot { captureHealth.snapshot }
     var diagnostics: (running: Bool, voiceProcessing: Bool, inputRate: Double, outputs: [String]) {
         (engine?.isRunning == true, engine?.inputNode.isVoiceProcessingEnabled == true,
          engine?.inputNode.outputFormat(forBus: 0).sampleRate ?? 0,
@@ -86,6 +143,7 @@ final class VoiceAudio {
     private var onPCM: (@Sendable (Data) -> Void)?
     private var onCaptureFailure: (@Sendable () -> Void)?
     private var muted = false
+    private let captureHealth = VoiceCaptureHealth()
     private var scheduledBuffers = 0
     private var playbackGeneration = UUID()
     private let playbackFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32,
@@ -103,6 +161,7 @@ final class VoiceAudio {
     func start(onPCM: @escaping @Sendable (Data) -> Void,
                onFailure: @escaping @Sendable () -> Void) throws {
         stop()
+        captureHealth.reset()
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.playAndRecord, mode: .voiceChat, options: [.defaultToSpeaker, .allowBluetoothHFP])
         try session.setPreferredSampleRate(48_000)
@@ -211,9 +270,14 @@ final class VoiceAudio {
         let microphone = try MicrophonePCM(inputFormat: format)
         microphone.setMuted(muted)
         self.microphone = microphone
+        let captureHealth = captureHealth
         engine.inputNode.installTap(onBus: 0, bufferSize: 1_024, format: format) { @Sendable buffer, _ in
+            captureHealth.tapped(buffer)
             do {
-                if let data = try microphone.convert(buffer) { onPCM(data) }
+                if let data = try microphone.convert(buffer) {
+                    captureHealth.converted(data)
+                    onPCM(data)
+                }
             } catch {
                 onCaptureFailure()
             }

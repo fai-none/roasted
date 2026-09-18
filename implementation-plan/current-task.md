@@ -18,3 +18,5 @@ AI TODOs:
 - [ ] Record founder roast/receipt acceptance explicitly; do not infer it.
 
 Phone auto-lock fix `ae03880` is built, installed and launched; actual interval check pending. Most recent real call saved a Thai excerpt but no learning signals. No new vendor, architecture, background calling, full transcript retention or publication. Exact donor and Snapshotv6 remain unchanged; authenticated dashboard tools remain unavailable.
+
+Active blocker21:58UTC: founder says roast is better, but same paragraph repeats and YOU captions do not update. Diagnose microphone→PCMsend→VAD/STT with local metadata-only counters before changing the personality again. Preserve alreadybuilt audio/sleep behavior; no speculative engine restart until evidence identifies a stall.

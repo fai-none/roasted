@@ -9,21 +9,29 @@ import { buildInstructions, learningTool } from '../server/prompt.mjs';
 import { topic } from '../server/index.mjs';
 
 const startedAt = new Date().toISOString();
+const repeatProbe = process.argv.includes('--repeat-probe');
 const outputDirectory = '.demo/conversation-audio';
 mkdirSync(outputDirectory, { recursive: true, mode: 0o700 });
 const instructions = buildInstructions({ topic, memory: [], language: 'Thai' });
 const evidence = {
   evidenceTier: 'LIVE HIGGS WITH LOCAL SYNTHETIC SPEECH. NOT MICROPHONE, DEVICE, PERSISTENCE OR HUMAN COMEDY ACCEPTANCE.',
-  startedAt, outcome: 'pending', topic,
+  startedAt, repeatProbe, outcome: 'pending', topic,
   instructionsSHA256: createHash('sha256').update(instructions).digest('hex'),
   promptFileSHA256: createHash('sha256').update(readFileSync('server/prompt.mjs')).digest('hex'),
   sessionInstructionsAcknowledged: false, sessionConfigurationMatched: false,
-  plannedSyntheticTurns: [
+  plannedSyntheticTurns: repeatProbe ? [
+    { label: 'cooking', segments: [['Samantha', 'I want AI to do my emails. I still want to cook dinner myself.']] },
+    { label: 'music', segments: [['Samantha', 'Actually, forget AI. I play the guitar every weekend.']] },
+    { label: 'interrupt-music', segments: [['Samantha', 'Wait, that is not what I said. I play guitar myself. I do not outsource music.']] },
+    { label: 'running', segments: [['Samantha', 'Yesterday I ran five kilometers before breakfast.']] },
+    { label: 'thai-confusion', segments: [['Kanya', 'อะไรนะ พูดว่าอะไรนะ']] },
+    { label: 'cat', segments: [['Samantha', 'My cat knocked my coffee onto my laptop. Now even my emails need a towel.']] },
+  ] : [
     { label: 'thai-switch', segments: [['Samantha', 'Humans will have more time to'], ['Kanya', 'เอ่อ ทำสิ่งที่มีประโยชน์กว่า']] },
     { label: 'grammar-error', segments: [['Samantha', 'Humans can spend time for more important things.']] },
     { label: 'retry', segments: [['Samantha', 'Humans can spend time on more important things.']] },
   ],
-  transcript: [], candidates: [], eventCounts: {}, audioBytes: {}, errors: [],
+  transcript: [], candidates: [], responseCompletions: [], eventCounts: {}, audioBytes: {}, errors: [],
 };
 const safeID = (value) => Number.isInteger(value) ? value
   : typeof value === 'string' && /^[a-zA-Z0-9_.-]{1,100}$/.test(value) ? value : null;
@@ -86,7 +94,8 @@ async function waitFor(type) {
 }
 async function finishResponse() {
   for (let attempt = 0; attempt < 4; attempt += 1) {
-    const event = await waitFor('response.done');
+    let event = await waitFor('response.done');
+    while (responses.get(event.response?.id) !== phase) event = await waitFor('response.done');
     if (event.response?.status !== 'completed') fail('response-not-completed');
     const calls = (event.response.output ?? []).filter((item) => item.type === 'function_call');
     for (const call of calls) {
@@ -129,6 +138,11 @@ try {
     evidence.eventCounts[type] = (evidence.eventCounts[type] ?? 0) + 1;
     if (type === 'input_audio_buffer.speech_started') items.set(event.item_id, phase);
     if (type === 'response.created') responses.set(event.response?.id, phase);
+    if (type === 'response.done') evidence.responseCompletions.push({
+      phase: responses.get(event.response?.id) ?? phase,
+      status: safeID(event.response?.status),
+      toolCalls: (event.response?.output ?? []).filter((item) => item.type === 'function_call').length,
+    });
     if (type === 'conversation.item.input_audio_transcription.completed') {
       evidence.transcript.push({ speaker: 'You', phase: items.get(event.item_id) ?? phase, text: event.transcript });
     }
@@ -152,7 +166,7 @@ try {
     socket.addEventListener('open', () => { clearTimeout(timeout); resolve(); }, { once: true });
     socket.addEventListener('error', () => { clearTimeout(timeout); reject(new Error('open-error')); }, { once: true });
   });
-  globalTimer = setTimeout(() => { pumping = false; deliver({ type: 'global-timeout' }); socket.close(); }, 120_000);
+  globalTimer = setTimeout(() => { pumping = false; deliver({ type: 'global-timeout' }); socket.close(); }, repeatProbe ? 180_000 : 120_000);
   send({ type: 'session.update', session: {
     type: 'realtime', model: 'higgs-realtime', instructions, output_modalities: ['audio'],
     audio: { input: { format: { type: 'audio/pcm', rate: 24000 }, transcription: { model: 'higgs-stt-3.1', language: 'en' }, turn_detection: { type: 'semantic_vad' } },
@@ -190,6 +204,13 @@ try {
       offset = 0;
       input = synthetic[index];
     });
+    // One probe interrupts actual provider audio generation with the next PCM utterance.
+    if (repeatProbe && index === 1) {
+      await waitFor('response.output_audio.delta');
+      await delay(350);
+      playbackEnd = Date.now();
+      continue;
+    }
     // VAD creates the response; no typed user item, commit, or response.create here.
     await finishResponse();
   }
@@ -211,5 +232,6 @@ try {
   console.log(JSON.stringify({ outcome: evidence.outcome, error: evidence.error, instructionsSHA256: evidence.instructionsSHA256,
     sessionInstructionsAcknowledged: evidence.sessionInstructionsAcknowledged,
     sessionConfigurationMatched: evidence.sessionConfigurationMatched,
-    transcript: evidence.transcript, audioBytes: evidence.audioBytes, errors: evidence.errors, evidenceFile }, null, 2));
+    transcript: evidence.transcript, responseCompletions: evidence.responseCompletions,
+    eventCounts: evidence.eventCounts, audioBytes: evidence.audioBytes, errors: evidence.errors, evidenceFile }, null, 2));
 }

@@ -1,5 +1,38 @@
 import Foundation
 
+private struct VoiceHealthEvent: Codable {
+    let type: String
+    let at: TimeInterval
+}
+
+private struct VoiceSessionHealth: Codable {
+    var phase = "stopped"
+    var startedAt: TimeInterval = 0
+    var updatedAt: TimeInterval = 0
+    var muted = false
+    var engineRunning = false
+    var voiceProcessing = false
+    var inputSampleRate: Double = 0
+    var outputPortTypes: [String] = []
+    var capture = VoiceCaptureSnapshot()
+    var inputChunksSent = 0
+    var inputBytesSent = 0
+    var lastInputSendAt: TimeInterval = 0
+    var droppedInputChunks = 0
+    var speechStarts = 0
+    var lastSpeechStartAt: TimeInterval = 0
+    var inputTranscripts = 0
+    var lastInputTranscriptAt: TimeInterval = 0
+    var responses = 0
+    var receivedAudioBytes = 0
+    var scheduledAudioBytes = 0
+    var toolContinuations = 0
+    var failures = 0
+    var handshakeHTTPStatus = 0
+    var closeCode = 0
+    var events: [VoiceHealthEvent] = []
+}
+
 enum HiggsEvent {
     case connected
     case itemOrder(id: String)
@@ -34,9 +67,15 @@ final class HiggsVoiceClient {
     private var playbackItemIDs = Set<String>()
     private var interruptedItemIDs = Set<String>()
     private var interruptedResponseIDs = Set<String>()
+    private var health = VoiceSessionHealth()
+    private var healthTask: Task<Void, Never>?
 
     func start(secret: String, instructions: String, tools: [[String: Any]]) async throws {
         stop()
+        health = VoiceSessionHealth()
+        health.startedAt = Date().timeIntervalSince1970
+        health.phase = "requestingPermission"
+        startHealthUpdates()
         let current = generation
         try await VoiceAudio.requestPermission()
         guard generation == current, !Task.isCancelled else { throw CancellationError() }
@@ -44,6 +83,7 @@ final class HiggsVoiceClient {
         let socket = URLSession.shared.webSocketTask(with: url,
                                                     protocols: ["realtime", "bai-client-secret.\(secret)"])
         self.socket = socket
+        health.phase = "connecting"
         socket.resume()
         receiveTask = Task { [weak self] in
             while !Task.isCancelled {
@@ -96,6 +136,7 @@ final class HiggsVoiceClient {
     func setMuted(_ muted: Bool) {
         self.muted = muted
         audio.setMuted(muted)
+        persistHealth()
     }
 
     /// End audible conversation, then give Higgs a bounded chance to report actual learning evidence.
@@ -103,6 +144,7 @@ final class HiggsVoiceClient {
         guard connected else { return false }
         let current = generation
         finishing = true
+        health.phase = "finishing"
         finalToolReceived = false
         audio.setMuted(true)
         interruptAssistant()
@@ -167,9 +209,14 @@ final class HiggsVoiceClient {
         ], generation: current)
         guard !finishing else { return }
         try await send(["type": "response.create"], generation: current)
+        health.toolContinuations += 1
     }
 
     func stop() {
+        healthTask?.cancel()
+        healthTask = nil
+        health.handshakeHTTPStatus = (socket?.response as? HTTPURLResponse)?.statusCode ?? health.handshakeHTTPStatus
+        health.closeCode = socket?.closeCode.rawValue ?? health.closeCode
         generation = UUID()
         connected = false
         finishing = false
@@ -189,6 +236,8 @@ final class HiggsVoiceClient {
         socket?.cancel(with: .normalClosure, reason: nil)
         socket = nil
         audio.stop()
+        health.phase = health.failures > 0 ? "failed" : "stopped"
+        persistHealth()
         handledToolCalls.removeAll()
         currentResponseID = nil
         itemResponseIDs.removeAll()
@@ -200,8 +249,15 @@ final class HiggsVoiceClient {
     private func handle(_ data: Data, generation current: UUID) async throws {
         guard let event = try JSONSerialization.jsonObject(with: data) as? [String: Any],
               let type = event["type"] as? String else { return }
+        if ["session.created", "response.created", "response.done", "input_audio_buffer.speech_started",
+            "input_audio_buffer.speech_stopped", "conversation.item.input_audio_transcription.completed",
+            "response.output_audio_transcript.done", "error"].contains(type) {
+            health.events.append(VoiceHealthEvent(type: type, at: Date().timeIntervalSince1970))
+            if health.events.count > 32 { health.events.removeFirst(health.events.count - 32) }
+        }
         switch type {
         case "response.created":
+            health.responses += 1
             responseActive = true
             currentResponseID = (event["response"] as? [String: Any])?["id"] as? String
         case "response.output_item.added", "conversation.item.added":
@@ -225,6 +281,9 @@ final class HiggsVoiceClient {
                     guard !Task.isCancelled, let self, self.generation == current else { return }
                     do {
                         try await self.send(["type": "input_audio_buffer.append", "audio": data.base64EncodedString()], generation: current)
+                        self.health.inputChunksSent += 1
+                        self.health.inputBytesSent += data.count
+                        self.health.lastInputSendAt = Date().timeIntervalSince1970
                     } catch {
                         guard self.generation == current, !Task.isCancelled else { return }
                         self.fail("Microphone audio could not reach Higgs. Please start a new call.")
@@ -242,7 +301,14 @@ final class HiggsVoiceClient {
                 self.interruptAssistant()
             }
             do {
-                try audio.start(onPCM: { data in continuation.yield(data) }, onFailure: { [weak self] in
+                try audio.start(onPCM: { [weak self] data in
+                    if case .dropped = continuation.yield(data) {
+                        Task { @MainActor in
+                            guard let self, self.generation == current else { return }
+                            self.health.droppedInputChunks += 1
+                        }
+                    }
+                }, onFailure: { [weak self] in
                     Task { @MainActor in
                         guard let self, self.generation == current else { return }
                         self.fail(VoiceAudioError.conversion.localizedDescription)
@@ -254,17 +320,25 @@ final class HiggsVoiceClient {
             }
             audio.setMuted(muted)
             connected = true
+            health.phase = "active"
             onEvent?(.connected)
             try await send(["type": "response.create"], generation: current)
         case "input_audio_buffer.speech_started":
+            health.speechStarts += 1
+            health.lastSpeechStartAt = Date().timeIntervalSince1970
             interruptAssistant()
             if let id = event["item_id"] as? String { onEvent?(.itemOrder(id: id)) }
             onEvent?(.speechStarted)
         case "conversation.item.input_audio_transcription.completed":
+            health.inputTranscripts += 1
+            health.lastInputTranscriptAt = Date().timeIntervalSince1970
             if let id = event["item_id"] as? String, let text = event["transcript"] as? String {
                 onEvent?(.userTranscript(id: id, text: text))
             }
         case "response.output_audio.delta":
+            if let encoded = event["delta"] as? String, let pcm = Data(base64Encoded: encoded) {
+                health.receivedAudioBytes += pcm.count
+            }
             guard !finishing, let encoded = event["delta"] as? String,
                   let pcm = Data(base64Encoded: encoded), !pcm.isEmpty else { return }
             if let responseID = event["response_id"] as? String,
@@ -274,6 +348,7 @@ final class HiggsVoiceClient {
                 playbackItemIDs.insert(itemID)
             }
             try audio.play(pcm)
+            health.scheduledAudioBytes += pcm.count
             onEvent?(.speaking)
         case "response.output_audio_transcript.done":
             guard !finishing else { return }
@@ -321,8 +396,35 @@ final class HiggsVoiceClient {
     }
 
     private func fail(_ message: String) {
+        health.failures += 1
         stop()
         onEvent?(.failure(message))
+    }
+
+    private func startHealthUpdates() {
+        healthTask = Task { [weak self] in
+            while !Task.isCancelled {
+                self?.persistHealth()
+                do { try await Task.sleep(for: .seconds(1)) }
+                catch { return }
+            }
+        }
+    }
+
+    /// Overwritten metadata only: never audio, transcript text, IDs, URLs or credentials.
+    private func persistHealth() {
+        let diagnostics = audio.diagnostics
+        health.updatedAt = Date().timeIntervalSince1970
+        health.muted = muted || finishing
+        health.engineRunning = diagnostics.running
+        health.voiceProcessing = diagnostics.voiceProcessing
+        health.inputSampleRate = diagnostics.inputRate
+        health.outputPortTypes = diagnostics.outputs
+        health.capture = audio.captureDiagnostics
+        health.handshakeHTTPStatus = (socket?.response as? HTTPURLResponse)?.statusCode ?? health.handshakeHTTPStatus
+        guard let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+              let data = try? JSONEncoder().encode(health) else { return }
+        try? data.write(to: directory.appendingPathComponent("RoastedVoiceHealth.json"), options: .atomic)
     }
 
     private static func safeDiagnostic(_ error: Error, socket: URLSessionWebSocketTask) -> String {
