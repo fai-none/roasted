@@ -29,3 +29,9 @@ Manually exercised simulator Home → incoming → decline → Home → incoming
 Topic source was read on 2026-09-18: Apple Newsroom's September 9 iPhone 18 Pro announcement, availability September 18. The upgrade-culture question is editorial framing, not a sourced claim about public opinion.
 
 **Existing human gate:** static journey/tone review before M2 is pending. No live provider calls, real microphone capture, InsForge writes, signed iPhone install or new human acceptance has occurred.
+
+## Roast quality correction — 19:07 UTC
+
+Founder supplied the Roast Quality Contract, preserved in `docs/roast-quality-contract.md`. Roast quality is P0: entertain first; approximately 70% roast/culture, 20% reactive back-and-forth, 10% explicit correction. Updated the sample interaction to use a specific upgrade callback and tease the act of switching into Thai. Added `server/prompt.mjs` with bounded, untrusted topic/memory context and actual-evidence tool instructions; no live backend is wired at this checkpoint.
+
+Revised app build passed; installed/relaunched in the same simulator. Prompt Node syntax and focused call-state checks passed. Provider configuration presence was checked without exposing values: all five required fields are populated. Credentials have not yet been tested. CoreDevice reports the paired iPhone 14 Pro as unavailable, so no physical-device proof. Static/M2 usage confirmation remains pending; adding keys has not been recorded as acceptance.

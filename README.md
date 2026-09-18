@@ -6,6 +6,8 @@ Nobody calls a conversationally fluent non-native English speaker each day about
 
 Primary track: **Breaking the Language Barrier**. Secondary strength: **Most Human Conversation**. These track names are supplied by the founder; the event URL, deadline and official rubric still need confirmation.
 
+[Roast quality is P0](docs/roast-quality-contract.md): entertain first, react specifically, use callbacks, keep corrections occasional and inside the joke. Working audio without convincing roast quality is not demo-ready.
+
 ## Start here
 
 - `.baby-beluga/snapshot.md`: canonical dashboard state after Beluga export.

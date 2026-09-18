@@ -64,7 +64,7 @@ final class CallSession {
         isMuted = false
         phase = .active
         status = "Sample conversation"
-        append("Nobody", "A new phone every year? Your camera has a better career plan than you. Is upgrading actually worth it?")
+        append("Nobody", "Apple announces a new phone and suddenly everyone's old one is a family embarrassment. Are you buying the upgrade, or just judging the people who do?")
     }
 
     func advanceMock() {
@@ -73,15 +73,15 @@ final class CallSession {
         switch mockStep {
         case 1:
             append("You", "People is overreacting because Apple don't really change much.")
-            append("Nobody", "Fair point—the hype is doing the heavy lifting. But ‘people is’ just dropped your grammar down the stairs. Try ‘People are overreacting because Apple doesn't really change much.’")
+            append("Nobody", "Apple sells you the same rectangle; you sell me ‘people is.’ Neither of you respects an upgrade. People ARE. Apple DOESN’T. Try that take again.")
             status = "Your turn to retry"
         case 2:
             append("You", "People are overreacting because Apple doesn't really change much.")
-            append("Nobody", "There we go. Same hot take, fewer grammatical casualties. So what would actually make you upgrade?")
+            append("Nobody", "Your sentence got a bigger upgrade than the phone. What would Apple actually have to change to get your money?")
             status = "Conversation continues"
         default:
             append("You", "Maybe if it felt more คุ้มค่า—you know?")
-            append("Nobody", "‘Worth the money’—exactly. You want value, not a very expensive new rectangle. What would feel worth the money to you?")
+            append("Nobody", "You switched to Thai like English just asked for your credit card. ‘Worth the money.’ Fine—what would make this rectangle worth yours?")
             status = "English + Thai sample"
         }
     }
