@@ -31,3 +31,11 @@
 - Evidence: `DemoBackend.save` performs one read after an uncertain save; `DemoBackendSaveRecoveryChecks` covers exact-ID recovery, unrelated receipts and validation rejection. The actual device/database observation is in `docs/implementation-evidence.md`.
 - Apply when: A client reports failure after a transactional save or loses connectivity around hang-up.
 - Avoid: Creating a new session ID to retry, fabricating a receipt, or turning an explicit validation rejection into success.
+
+## Verify phone reachability before debugging the voice provider
+
+- Context: Mac-local session creation worked while the iPhone could not start a call; its backend request failed with NSURLErrorDomain -1004 before Higgs connected.
+- Lesson: A local health check only proves the Mac can reach itself. Check a phone-originated request, address family, server binding and certificate hostname separately. An IPv6 hotspot may expose a CLAT IPv4 address that is unsuitable as a LAN server address.
+- Evidence: `DemoBackend.recordConnection`, the IPv6-capable default listener in `server/index.mjs`, and physical HTTP200 plus Higgs101 after hotspot reprovisioning in `docs/implementation-evidence.md`.
+- Apply when: Moving a locally hosted phone demo between guest Wi-Fi and Personal Hotspot. Refresh the private URL/certificate and relaunch both clients when the server address changes.
+- Avoid: Disabling TLS verification or treating Simulator success as proof that the physical phone can reach the broker.

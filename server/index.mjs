@@ -92,7 +92,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       server.requestTimeout = 30000;
       server.headersTimeout = 15000;
       server.on('error', () => { console.error('Demo HTTPS server failed to start.'); process.exitCode = 1; });
-      server.listen(Number(process.env.PORT || 8787), process.env.HOST || '0.0.0.0', () => console.log('Roasted HTTPS demo broker is listening.'));
+      server.listen(Number(process.env.PORT || 8787), process.env.HOST || '::', () => console.log('Roasted HTTPS demo broker is listening.'));
     } catch { console.error('Demo HTTPS certificate/key unavailable.'); process.exitCode = 1; }
   }
 }

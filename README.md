@@ -16,7 +16,7 @@ Primary track: **Breaking the Language Barrier**. Secondary strength: **Most Hum
 - [First implementation task](implementation-plan/m0-foundation.md): clean app bootstrap.
 - [Original request](docs/original-request.md): complete unabridged founder wording.
 
-The donor is read-only. This repository is distinct from Nobody and Baby Beluga. Native iOS and English + Thai on iPhone 14 are founder-confirmed. The local repository is Roast, connected to [fai-none/roasted](https://github.com/fai-none/roasted). No remote history has been merged or pushed by implementation.
+The donor is read-only. This repository is distinct from Nobody and Baby Beluga. Native iOS and English + Thai on iPhone 14 are founder-confirmed. The local repository is Roast, connected to the founder-authorized public [fai-none/roasted](https://github.com/fai-none/roasted) repository; its working default branch is `codex/roasted-demo`.
 
 The founder approved **in-app incoming calls** for the hackathon MVP. Background/scheduled incoming calls are deferred. Official event deadlines and rules will be provided later.
 
@@ -37,6 +37,8 @@ node --env-file=.env server/index.mjs
 ```
 
 Keep the last command running. It serves HTTPS on port 8787 with a seven-day local certificate and a required demo bearer token. The setup script keeps its private TLS key in ignored `.demo/`. The iPhone must be on a network that can reach this Mac. Nothing is publicly deployed.
+
+Guest Wi-Fi may prevent the phone from reaching the Mac. The founder's working recording setup uses the iPhone's Personal Hotspot with the Mac connected. The broker accepts IPv6 and IPv4 by default. If switching networks changes the Mac's address, update the ignored device URL and certificate SAN for that address, then provision the updated certificate with the launch helper below. The setup script does not automatically discover every IPv6 hotspot configuration. Keep certificate validation enabled.
 
 After installing the app from Xcode, configure it once through a private launch environment:
 

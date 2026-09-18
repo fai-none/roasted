@@ -171,6 +171,8 @@ enum DemoBackendError: LocalizedError {
     }
 
     private func request(_ path: String, body: [String: Any]? = nil) async throws -> Data {
+        let startedAt = Date().timeIntervalSince1970
+        recordConnection(path: path, startedAt: startedAt, phase: "requesting")
         var request = URLRequest(url: configuration.baseURL.appendingPathComponent(path))
         request.setValue("Bearer \(configuration.token)", forHTTPHeaderField: "Authorization")
         if let body {
@@ -178,7 +180,16 @@ enum DemoBackendError: LocalizedError {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = try JSONSerialization.data(withJSONObject: body)
         }
-        let (data, response) = try await session.data(for: request)
+        let data: Data
+        let response: URLResponse
+        do {
+            (data, response) = try await session.data(for: request)
+        } catch {
+            recordConnection(path: path, startedAt: startedAt, phase: "transportFailed", error: error)
+            throw error
+        }
+        recordConnection(path: path, startedAt: startedAt, phase: "received",
+                         status: (response as? HTTPURLResponse)?.statusCode)
         guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
             let status = (response as? HTTPURLResponse)?.statusCode ?? 0
             // This pinned local broker exposes only sanitized fixed error messages.
@@ -187,5 +198,28 @@ enum DemoBackendError: LocalizedError {
             throw DemoBackendError.requestFailed(status: status, reason: reason)
         }
         return data
+    }
+
+    /// Local troubleshooting metadata only; never headers, URLs, bodies or credentials.
+    private func recordConnection(path: String, startedAt: TimeInterval, phase: String,
+                                  status: Int? = nil, error: Error? = nil) {
+        var values: [String: Any] = ["route": path, "phase": phase,
+                                     "startedAt": startedAt, "updatedAt": Date().timeIntervalSince1970]
+        if let status { values["httpStatus"] = status }
+        if let error {
+            let nsError = error as NSError
+            let allowed = [NSURLErrorDomain, NSPOSIXErrorDomain, NSCocoaErrorDomain]
+            values["errorDomain"] = allowed.contains(nsError.domain) ? nsError.domain : "other"
+            values["errorCode"] = nsError.code
+            if let underlying = nsError.userInfo[NSUnderlyingErrorKey] as? NSError {
+                values["underlyingDomain"] = allowed.contains(underlying.domain) ? underlying.domain : "other"
+                values["underlyingCode"] = underlying.code
+            }
+            let networkPath = String(describing: nsError.userInfo["_NSURLErrorNWPathKey"] ?? "").lowercased()
+            values["localNetworkDenied"] = networkPath.contains("local network prohibited") || networkPath.contains("local network denied")
+        }
+        guard let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+              let data = try? JSONSerialization.data(withJSONObject: values) else { return }
+        try? data.write(to: directory.appendingPathComponent("RoastedBackendHealth.json"), options: .atomic)
     }
 }
