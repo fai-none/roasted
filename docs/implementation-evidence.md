@@ -192,3 +192,9 @@ Before requested publication,76tracked files and201reachable historical blob ver
 ## Authorized public repository delivery — 22:30 UTC
 
 Founder explicitly requested pushing and making the repository public. Verified code candidate `895d78fffc281dcf7e47f591233ce10144c99595` pushed to `origin/codex/roasted-demo`; GitHub default branch set to that branch while the existing unrelated remote main initialization was preserved. `gh repo view` confirmed visibility PUBLIC and default branch codex/roasted-demo; `git ls-remote` confirmed the exact candidate hash. Public link: https://github.com/fai-none/roasted . No hackathon form was submitted. Simulator remains the live recording candidate; both-voice recording audio and actual video upload remain founder steps. Final documentation-only delivery record follows this verified code revision.
+
+## Simulator recording interruption — 22:37 UTC
+
+Founder reported: “it's really buggy. i can't have it speak longer than1word. it seems to get interrupted”. Latest approximately9-second Simulator call recorded4speech starts/transcriptions and6responses, with each speech-start event immediately after response.done while audio was still being played;76of76tap callbacks were audible, zero transport drops/errors. This supports a speaker-echo hypothesis but does not prove it without isolation. Native phone behavior and Simulator recording behavior are separate evidence tiers.
+
+Founder selected headphones to preserve natural interruption rather than a Simulator-only half-duplex change. Simulator output was changed from pinned MacBook Air Speakers to System; Mac microphone remains selected. Await headphone route/retest. No application behavior changed or success claimed. Recording must capture system audio as well as microphone; a microphone-only recording with headphones would omit Nobody.

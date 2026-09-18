@@ -24,7 +24,7 @@ Humor quality remains variable; the founder has reported improvement, not final 
 
 ## Record a short demo
 
-Use the live app, not its labeled sample mode. Keep the Mac broker running and the app foreground.
+Use the live app, not its labeled sample mode. Keep the Mac broker running and the app foreground. For Simulator, use headphones: Mac speaker output caused rapid false interruptions in the recording rehearsal. Keep Simulator input on MacBook Air Microphone and output on System with headphones selected. The recorder must capture system audio plus microphone audio.
 
 1. **0:00–0:10 — Hook:** “English apps let you practice. Roasted gives you someone worth arguing with.” Show Home and accept Nobody’s call.
 2. **0:10–0:45 — Conversation:** Answer the topic honestly. Give one real spoken mistake, such as “Humans can spend time for more important things.” Let Nobody finish, then retry the actual correction. A Thai reaction is optional.

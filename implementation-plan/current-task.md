@@ -18,3 +18,5 @@ AI TODOs:
 Physical conversation and real memory continuity are verified. Humor is better by founder feedback but full roast-quality acceptance remains open. Automatic-lock interval and capture of both voices in the founder's recording need a short human check. The prior missing-input repetition did not recur in the later physical test; provider joke repetition remains a known quality limit.
 
 Canonical Snapshotv6/donor unchanged. Authenticated dashboard tools remain unavailable; no dashboard approval was invented. No background calling, broad backend work or hackathon-form submission.
+
+22:37UTC recording blocker: Simulator speaker output triggers rapid apparent false interruptions; physical phone success does not prove Simulator recording readiness. Founder chose headphones to preserve interruption. Output now follows System, input remains Mac microphone, app is back on Home. Await connected headphone route and retest, plus recording-app audio choice. No half-duplex code change.
