@@ -12,8 +12,8 @@ AI TODOs:
 - [x] Inspect tracked content/history for credentials before publication; no findings.
 - [x] Fix UUID case comparison found in final save-recovery review and update regression.
 - [x] Complete final native checks and launch live Simulator build;5tests passed, HIGGS LIVE and real retrieved memory visible.
-- [ ] Push exact demo revision, set default branch, make public and verify remotely.
-- [ ] Leave recording guide and submission copy; report remaining quality/runtime limits.
+- [x] Push demo revision895d78f, set default branch codex/roasted-demo, make public and verify remotely.
+- [x] Leave docs/submission.md recording guide and copy; remaining quality/runtime limits explicitly documented.
 
 Physical conversation and real memory continuity are verified. Humor is better by founder feedback but full roast-quality acceptance remains open. Automatic-lock interval and capture of both voices in the founder's recording need a short human check. The prior missing-input repetition did not recur in the later physical test; provider joke repetition remains a known quality limit.
 
