@@ -26,6 +26,13 @@ struct ReceiptView: View {
                             .font(.caption)
                             .foregroundStyle(NobodyTheme.secondary)
                     }
+                    else {
+                        Label("Saved in InsForge", systemImage: "checkmark.circle.fill")
+                            .font(.caption).foregroundStyle(NobodyTheme.accent)
+                        if let warning = session.errorMessage {
+                            Text(warning).font(.caption).foregroundStyle(NobodyTheme.secondary)
+                        }
+                    }
                     if receipt.signals.isEmpty {
                         receiptCard("No learning signals captured yet", text: "There wasn’t enough conversation to identify an example. A new call gives you another chance.")
                     }

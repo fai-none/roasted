@@ -114,6 +114,10 @@ struct CallView: View {
                 if let message = session.errorMessage {
                     Text(message).font(.callout).multilineTextAlignment(.center).padding(.horizontal)
                 }
+                if session.canRetrySave {
+                    Button("Retry saving receipt", action: session.retrySave)
+                        .font(.headline).padding()
+                }
                 Button("Back home", action: session.goHome)
                     .font(.headline).padding()
                     .accessibilityIdentifier("roasted-error-home")

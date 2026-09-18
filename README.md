@@ -1,6 +1,6 @@
 # Roast
 
-Native iOS hackathon demo in implementation. The clean app builds and launches in the simulator; live Higgs voice and InsForge persistence are not yet verified. See [actual evidence](docs/implementation-evidence.md).
+Native iOS hackathon demo. The app builds, runs the full labeled mock journey, connects to Higgs, and uses a secure local broker for InsForge receipts and learner memory. Native playback and synthetic persistence checks pass; the real two-call iPhone rehearsal and human quality review remain open. See [actual evidence](docs/implementation-evidence.md) and the [rehearsal steps](docs/demo-rehearsal.md).
 
 Nobody calls a conversationally fluent non-native English speaker each day about one culturally relevant topic. It reacts to their opinion, roasts meaningful unnatural English, supplies a native alternative, invites a retry, and keeps talking like a friend. A post-call learning receipt retains useful examples.
 
@@ -26,6 +26,37 @@ Open `Roasted.xcodeproj`, choose the `Roasted` scheme and an installed iPhone si
 
 For iPhone 14, select your own development team in Xcode Signing & Capabilities and your connected device. Physical-device installation has not yet been verified. No donor signing identity is copied.
 
-Provider setup: fill the ignored `.env` from `.env.example`. Provider keys belong only in the local trusted backend, never in the iOS app, logs, source or dashboard. The app will use a short-lived Higgs credential. See the [verified documentation contract](docs/provider-contract.md).
+## Run the live demo backend
+
+Fill the ignored `.env` from `.env.example`. Node 22 and Python 3 are sufficient; no npm packages are required. Provider keys stay on the Mac.
+
+```sh
+python3 scripts/setup-local-demo.py
+node --env-file=.env server/init.mjs
+node --env-file=.env server/index.mjs
+```
+
+Keep the last command running. It serves HTTPS on port 8787 with a seven-day local certificate and a required demo bearer token. The setup script keeps its private TLS key in ignored `.demo/`. The iPhone must be on a network that can reach this Mac. Nothing is publicly deployed.
+
+After installing the app from Xcode, configure it once through a private launch environment:
+
+```sh
+xcrun devicectl list devices
+python3 scripts/launch-demo.py device DEVICE_ID
+```
+
+For Simulator, use `python3 scripts/launch-demo.py simulator SIMULATOR_ID`. This provisions the demo access token into Keychain and a public TLS certificate for exact trust validation; no provider key is included. Unsigned simulator builds may require this launch command again on each cold launch. Allow microphone and local-network access when prompted.
+
+Higgs receives 24 kHz microphone audio and generates speech, reactions and corrections. InsForge stores `sessions` and `learning_memory`; accepting another call reads fresh backend memory. A receipt uses the same saved session. Full transcripts are used transiently to validate selected quotes, then discarded by the backend; no audio is archived.
+
+## Verification commands
+
+```sh
+node --test server/server.test.mjs
+node --env-file=.env scripts/higgs-smoke.mjs
+xcodebuild test -project Roasted.xcodeproj -scheme Roasted -destination 'id=SIMULATOR_ID'
+```
+
+The Higgs smoke uses provider quota but no microphone or database writes. `server/verify-memory.mjs` performs an explicitly synthetic InsForge transaction test under a separate temporary learner and cleans it up. Neither proves real two-call learning. Actual observations and open gaps are in [implementation evidence](docs/implementation-evidence.md).
 
 Canonical Snapshot v6 is preserved. Dashboard writes are blocked by the absent authenticated Baby Beluga connection in this task; current evidence is recorded locally. Mock UX, build, simulator, physical device, live provider and human acceptance remain separate proof levels.

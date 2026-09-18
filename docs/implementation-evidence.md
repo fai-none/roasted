@@ -46,3 +46,15 @@ Provider/backend evidence at 19:23 UTC:
 - 11 backend tests passed (local loopback permission required). Live synthetic isolated-learner test passed save, fresh retrieval, immutable retry and rollback. Temporary test rows removed and cleanup verified; configured demo learner never seeded.
 - Local HTTPS broker `/health`, `/memory`, `/session` returned HTTP 200 under certificate validation and bearer authentication. Keys/client secrets were not printed. App simulator Home showed HIGGS LIVE and first-call empty memory after a genuine backend read.
 - First native simulator call received microphone permission but WebSocket closed before audio. Native connection diagnosis is in progress; no audible native conversation is claimed yet.
+
+## Native integration checkpoint — 19:38 UTC
+
+Native Higgs WebSocket authentication is verified (HTTP 101); transport smoke is not microphone proof. Simulator runtime exposed two separate audio issues: an engine stopped after a configuration change, then a Swift 6 MainActor assertion in the audio tap. The implementation now recreates capture conversion for the current route and uses explicitly Sendable audio callbacks with MainActor hops for app state. Rebuilt successfully. The next simulator call remained active and produced microphone transcripts, but repeated fragments suggest speaker feedback; it was muted and terminated without saving. No learner-memory evidence is claimed from that call.
+
+The app's lifecycle/evidence-isolation test now runs in the real iOS unit-test target: xcodebuild test passed, 1 test, 0 failures, on the same simulator/cache at 19:33 UTC. This verifies the labeled sample path and does not prove live voice quality.
+
+Xcode Apple Accounts UI was inspected and has no signed-in account. Physical-device build/install remains blocked on founder sign-in. Synthetic live-provider learning-capture rehearsal is underway independently; no actual two-call learner-memory result or human acceptance has been recorded.
+
+At 19:43 UTC the focused native audio runtime test passed two start/mute/synthetic-play/stop cycles: engine running, voice processing enabled, 48 kHz hardware capture, Speaker output, playback callbacks completed, muted output contained zero non-silent chunks. This test sends nothing to a provider and stores no microphone samples; it proves plumbing and teardown, not acoustic echo suppression or a human conversation. Provider keys/token literal scan passed across app, backend, scripts and docs; `.env` remains ignored with permissions `0600`.
+
+At 19:44 UTC a native **muted-input** simulator call rendered a real Higgs greeting, “iPhone 18 Pro again? You're upgrading your phone faster than you upgrade your excuses.” The app moved from speaking to Your turn; screenshot `docs/evidence/m2-live-greeting-muted.png` was visually inspected. This is live-provider/native-playback evidence, not a human two-way conversation or accepted roast quality. Muting during connection avoided the prior speaker-feedback loop.

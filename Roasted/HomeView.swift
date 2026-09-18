@@ -22,6 +22,7 @@ struct HomeView: View {
                     Text("Roasted").font(.largeTitle.bold())
                     Spacer()
                     if session.isMock { sampleBadge }
+                    else { Text("HIGGS LIVE").font(.caption2.bold()).foregroundStyle(NobodyTheme.accent) }
                 }
                 VStack(alignment: .leading, spacing: 12) {
                     NobodyAvatar(size: 116)
@@ -91,6 +92,11 @@ struct HomeView: View {
                             .accessibilityIdentifier("roasted-saved-receipt")
                         }
                     }
+                }
+                if session.liveAvailable {
+                    Button(session.isMock ? "Use live Higgs" : "Open mock walkthrough", action: session.toggleDemoMode)
+                        .font(.caption)
+                        .foregroundStyle(NobodyTheme.secondary)
                 }
             }
             .padding(24)

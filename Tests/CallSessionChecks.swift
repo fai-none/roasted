@@ -1,35 +1,36 @@
 import Foundation
+import Testing
+@testable import Roasted
 
-@main struct CallSessionChecks {
-    @MainActor static func main() {
-        let session = CallSession()
+struct CallSessionChecks {
+    @MainActor @Test func sampleLifecycleAndEvidenceIsolation() {
+        let session = CallSession(configuration: nil)
         session.accept()
-        precondition(session.phase == .home, "Cannot accept without an incoming call")
+        #expect(session.phase == .home)
         session.ring()
         session.decline()
-        precondition(session.phase == .home)
+        #expect(session.phase == .home)
         session.ring()
         session.accept()
         session.accept()
-        precondition(session.messages.count == 1, "Repeated accept must not duplicate a call")
+        #expect(session.messages.count == 1)
         session.end()
-        precondition(session.receipt?.signals.isEmpty == true, "Empty call must not fabricate learning")
+        #expect(session.receipt?.signals.isEmpty == true)
         session.goHome()
         session.ring()
         session.accept()
         session.advanceMock()
         session.end()
-        precondition(session.receipt?.signals.first?.improvementObserved == false, "Correction without retry is not improvement")
+        #expect(session.receipt?.signals.first?.improvementObserved == false)
         session.goHome()
         session.ring()
         session.accept()
         session.advanceMock()
         session.advanceMock()
         session.end()
-        precondition(session.receipt?.isMock == true)
-        precondition(session.savedReceipts.isEmpty, "Mock fixtures must not become saved learning")
+        #expect(session.receipt?.isMock == true)
+        #expect(session.savedReceipts.isEmpty)
         session.goHome()
-        precondition(session.messages.isEmpty && !session.isMuted)
-        print("PASS: call guards, decline, empty evidence, retry provenance, mock isolation, cleanup")
+        #expect(session.messages.isEmpty && !session.isMuted)
     }
 }
