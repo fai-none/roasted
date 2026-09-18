@@ -22,3 +22,5 @@ Phone auto-lock fix `ae03880` is built, installed and launched; actual interval 
 Active blocker21:58UTC: founder says roast is better, but same paragraph repeats and YOU captions do not update. Diagnose microphone→PCMsend→VAD/STT with local metadata-only counters before changing the personality again. Preserve alreadybuilt audio/sleep behavior; no speculative engine restart until evidence identifies a stall.
 
 22:12UTC diagnostic rehearsal heard13turns with no dropped audio; founder confirms responses matched new speech. Exact saved receipt exists despite unconfirmed-save UI. Current task: recover only an uncertain save whose exact call ID is confirmed by a fresh InsForge read, test missing-receipt/validation-failure paths, install, then perform one real correction/retry and fresh-call recall.
+
+22:21UTC: FIRST REAL LEARNING PERSISTENCE VERIFIED. Receipt `26c02783-e225-4eea-a9ed-6c82a4885d9a` and fresh learning_memory contain actual “spend time for”→“spend time ON”, later “spend time on”, improvement=true. Current human gate is cold-reopen/new-call usage without first giving Nobody the target phrase; then exact receipt/quality acceptance. No synthetic seed.

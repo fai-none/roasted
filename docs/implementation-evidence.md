@@ -168,3 +168,11 @@ Fresh InsForge read confirms receipt `5bd82c81-a815-4a1f-84dc-baa892ae8941` (cal
 The receipt-recovery change passed a signed iOS build and all5Simulator tests at22:16UTC: existing mock/audio checks plus lost-response exact-receipt recovery, unrelated-receipt rejection and HTTP422 preservation. Regression tests use an isolated URLProtocol stub and fake data, never a provider or database. The original physical error detail remains unknown; recovery correctness does not prove the original network cause.
 
 At22:17UTC checkpoint `dbe956e` installed and privately launched successfully on the connected iPhone14Pro. Founder was asked to speak an actual preposition mistake, hear the offered correction, retry it and verify the saved receipt before the second-call memory rehearsal. Installation is confirmed; physical recovery behavior and real two-call learning remain pending.
+
+## First real phone learning signal — 22:21 UTC
+
+After founder reported “done”, a fresh InsForge read confirmed actual phone receipt `26c02783-e225-4eea-a9ed-6c82a4885d9a` (created22:20:04UTC) and a persisted learning-memory signal updated22:20:50UTC: original `spend time for`, offered alternative `spend time ON`, later retry `spend time on`, improvementObserved=true. This is the configured learner's real spoken rehearsal, not a seeded or synthetic fixture. The saved receipt carries the same validated signal.
+
+Device metadata shows5completed input transcriptions,6speech starts,7responses,437sent chunks, zero dropped chunks and zero voice errors; call stopped normally. This proves the first real call's persistence. The founder was asked to cold-reopen, start a new call without first revealing the target phrase, and report Nobody's callback (spontaneous or prompted). Receipt UI confirmation, new-call usage, automatic-lock interval and final comedy acceptance remain separate open gates.
+
+The memory row's `source_session_id` was independently read and matches `26c02783-e225-4eea-a9ed-6c82a4885d9a`, confirming receipt and memory provenance.

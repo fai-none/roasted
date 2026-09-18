@@ -1,6 +1,6 @@
 # Roast
 
-Native iOS hackathon demo. The app builds, runs the full labeled mock journey, connects to Higgs, and uses a secure local broker for InsForge receipts and learner memory. Native playback and synthetic persistence checks pass; the real two-call iPhone rehearsal and human quality review remain open. See [actual evidence](docs/implementation-evidence.md) and the [rehearsal steps](docs/demo-rehearsal.md).
+Native iOS hackathon demo. The app builds, runs the full labeled mock journey, connects to Higgs, and uses a secure local broker for InsForge receipts and learner memory. Native playback and a real iPhone correction/retry saved in InsForge are verified; fresh-call recall and human quality review remain open. See [actual evidence](docs/implementation-evidence.md) and the [rehearsal steps](docs/demo-rehearsal.md).
 
 Nobody calls a conversationally fluent non-native English speaker each day about one culturally relevant topic. It reacts to their opinion, roasts meaningful unnatural English, supplies a native alternative, invites a retry, and keeps talking like a friend. A post-call learning receipt retains useful examples.
 
