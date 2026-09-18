@@ -58,3 +58,21 @@ Xcode Apple Accounts UI was inspected and has no signed-in account. Physical-dev
 At 19:43 UTC the focused native audio runtime test passed two start/mute/synthetic-play/stop cycles: engine running, voice processing enabled, 48 kHz hardware capture, Speaker output, playback callbacks completed, muted output contained zero non-silent chunks. This test sends nothing to a provider and stores no microphone samples; it proves plumbing and teardown, not acoustic echo suppression or a human conversation. Provider keys/token literal scan passed across app, backend, scripts and docs; `.env` remains ignored with permissions `0600`.
 
 At 19:44 UTC a native **muted-input** simulator call rendered a real Higgs greeting, “iPhone 18 Pro again? You're upgrading your phone faster than you upgrade your excuses.” The app moved from speaking to Your turn; screenshot `docs/evidence/m2-live-greeting-muted.png` was visually inspected. This is live-provider/native-playback evidence, not a human two-way conversation or accepted roast quality. Muting during connection avoided the prior speaker-feedback loop.
+
+At 19:48 UTC `scripts/higgs-audio-smoke.mjs` sent locally synthesized English speech as paced 24 kHz mono PCM16, then VAD silence. Higgs transcribed “I think buying a new phone every year is a waste of money.” exactly and returned 501,120 response audio bytes. It received 133,560 speech bytes and 99,840 silence bytes; speech-start/stop/commit events were observed. This is **synthetic audio through the live provider**, not microphone, human, physical-device or InsForge evidence. Synthetic files stay in ignored `.demo/`.
+
+The final-capture protocol now uses a distinct application-control item because Higgs rejected a new response without new input. Quote-grounded control produced two validated signals in 1.7 seconds in a fresh synthetic typed conversation. Native integration builds. The backend still rejects unmatched quotes and conservatively downgrades unsupported improvement; exact words alone do not prove pedagogical value. Human receipt/tone checks remain open.
+
+## Integrated checkpoint — 19:53 UTC (~70 minutes elapsed)
+
+`xcodebuild test` on the original simulator/cache passed **2 tests, 0 failures** (lifecycle/evidence isolation plus native audio). Result: `/tmp/RoastedDerivedData/Logs/Test/Test-Roasted-2026.09.18_12-50-40--0700.xcresult`. Backend tests passed **11/11** after the final fidelity instruction. The microphone callback/runtime fix and native integration are committed as `bcc8c51`; subsequent receipt-fidelity changes are included in this checkpoint.
+
+`node --env-file=.env server/rehearse-provider.mjs --memory-continuity` passed a full **synthetic typed-input, live-provider** chain using the latest English-replacement rule:
+- Call one produced 1,453,440 audio bytes and one validated preposition signal; final capture took 1.072 seconds.
+- A random isolated learner's session and signal were saved to InsForge. A new store freshly retrieved one memory; a new Higgs connection used it.
+- Call two said: “Oh, you mean the time you tried to say ‘spend time for’ instead of ‘spend time on’? Classic.” It generated 1,100,160 audio bytes.
+- Test receipts were explicitly mock-marked. Temporary session and memory rows were deleted, then fresh reads verified cleanup. The configured demo learner was untouched.
+
+This does **not** prove a real learner's two-call voice interaction. The provider still guessed an unsupported phone model in one synthetic greeting; comedy quality and factual restraint are not accepted. An earlier tool candidate selected commentary about a Thai word as the English alternative; tightened instructions removed that signal in the final run. Backend quote validation remains unchanged.
+
+**Next concrete gate:** sign into Xcode Apple Accounts so the connected iPhone 14 Pro can be provisioned, then perform `docs/demo-rehearsal.md`. Device signing/install, phone microphone/speaker/interruption, actual learner save/callback, cold-launch receipt/Keychain, and founder roast/receipt/final acceptance remain unverified. Dashboard writes remain unavailable; canonical Snapshot v6 and the donor remain untouched. Nothing published or submitted.

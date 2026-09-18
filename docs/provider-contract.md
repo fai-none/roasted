@@ -10,6 +10,8 @@ Send `session.update` immediately: the first update is acknowledged with `sessio
 
 Send `input_audio_buffer.append`; play `response.output_audio.delta`. On `input_audio_buffer.speech_started`, discard queued local playback. Capture actual input from `conversation.item.input_audio_transcription.completed` and assistant words from `response.output_audio_transcript.done`. Start greeting with `response.create`; VAD handles later turns. Execute completed function calls once from `response.done.response.output`; reply with a `function_call_output` conversation item, then `response.create`.
 
+Live discovery: a plain `response.create` after an already completed turn can fail with `No user input`. At hang-up, stop audible playback, allow the last transcript to settle, await cancellation if needed, then send a distinct application-control text item requesting `capture_learning` with exact finalized source records. Await that item's acknowledgement before `response.create`. Keep the control item out of learner evidence. Quote provenance still requires backend validation; a model can return valid JSON with invented or unspoken wording. Synthetic provider tests verified this flow; it is not human-conversation acceptance.
+
 Sources: [connections](https://docs.boson.ai/models/higgs-realtime/guides/connections-and-sessions), [audio](https://docs.boson.ai/models/higgs-realtime/guides/audio-and-voices), [client events](https://docs.boson.ai/api-reference/realtime/client-events), [server events](https://docs.boson.ai/api-reference/realtime/server-events), [interruptions](https://docs.boson.ai/models/higgs-realtime/guides/turn-detection-and-interruptions), [tools](https://docs.boson.ai/models/higgs-realtime/guides/tool-calling).
 
 ## InsForge

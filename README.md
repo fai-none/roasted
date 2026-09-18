@@ -54,9 +54,13 @@ Higgs receives 24 kHz microphone audio and generates speech, reactions and corre
 ```sh
 node --test server/server.test.mjs
 node --env-file=.env scripts/higgs-smoke.mjs
+node --env-file=.env scripts/higgs-audio-smoke.mjs
+node --env-file=.env server/rehearse-provider.mjs --memory-continuity
 xcodebuild test -project Roasted.xcodeproj -scheme Roasted -destination 'id=SIMULATOR_ID'
 ```
 
-The Higgs smoke uses provider quota but no microphone or database writes. `server/verify-memory.mjs` performs an explicitly synthetic InsForge transaction test under a separate temporary learner and cleans it up. Neither proves real two-call learning. Actual observations and open gaps are in [implementation evidence](docs/implementation-evidence.md).
+The Higgs smokes use provider quota but no microphone or database writes. The audio smoke requires macOS `say`/`afconvert` and synthesizes its own test sentence. The provider rehearsal uses synthetic typed input; `--memory-continuity` saves under a separate temporary learner, retrieves it in a new call, and cleans it up. Without that flag it writes no database rows. `server/verify-memory.mjs` tests the InsForge transaction separately. These checks do not prove real two-call learning. Actual observations and open gaps are in [implementation evidence](docs/implementation-evidence.md).
+
+To rehearse from an empty learner without deleting previous receipts, choose a new `DEMO_LEARNER_ID` in the ignored `.env` and restart the Mac broker. Keep the same ID across the two calls being demonstrated.
 
 Canonical Snapshot v6 is preserved. Dashboard writes are blocked by the absent authenticated Baby Beluga connection in this task; current evidence is recorded locally. Mock UX, build, simulator, physical device, live provider and human acceptance remain separate proof levels.
