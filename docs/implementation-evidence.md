@@ -176,3 +176,15 @@ After founder reported “done”, a fresh InsForge read confirmed actual phone 
 Device metadata shows5completed input transcriptions,6speech starts,7responses,437sent chunks, zero dropped chunks and zero voice errors; call stopped normally. This proves the first real call's persistence. The founder was asked to cold-reopen, start a new call without first revealing the target phrase, and report Nobody's callback (spontaneous or prompted). Receipt UI confirmation, new-call usage, automatic-lock interval and final comedy acceptance remain separate open gates.
 
 The memory row's `source_session_id` was independently read and matches `26c02783-e225-4eea-a9ed-6c82a4885d9a`, confirming receipt and memory provenance.
+
+## Real two-call memory confirmed — 22:24 UTC
+
+Founder answered “Yes, after I asked” when asked whether the new call recalled the actual for/on correction. Combined with the independently verified first-call receipt/memory provenance, this establishes real physical two-call continuity with **prompted recall**, not spontaneous recall. Founder then requested a live Mac Simulator recording build and explicitly authorized pushing the repository and making it public. Submission itself remains a human action.
+
+Final review caught UUID case normalization in save recovery: Swift creates uppercase UUID strings, while the backend normalizes them lowercase. Recovery now compares normalized IDs; the regression uses the real uppercase-request/lowercase-receipt shape. This is a delivery-blocking correction to the earlier recovery check, not a claim the earlier version handled that case.
+
+## Recording candidate — 22:28 UTC
+
+Final Simulator candidate passed all5native tests, including uppercase-request/lowercase-saved UUID recovery (`Test-Roasted-2026.09.18_15-26-15--0700.xcresult`). Installed and privately launched on the existing iPhone17Pro Simulator; UI accessibility verified **HIGGS LIVE** and **Retrieved from InsForge: spend time for**. Simulator audio input/output explicitly set to MacBook Air Microphone/Speakers. Human recording must verify capture of both voices; no video has been fabricated or submitted.
+
+Before requested publication,76tracked files and201reachable historical blob versions were checked for the current three secret values, private-key markers and credential patterns; zero findings. No tracked audio files. All16retained full conversation evidence JSON files are explicitly synthetic. Ignored `.env` and `.demo` remain excluded.

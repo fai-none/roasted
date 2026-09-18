@@ -37,17 +37,17 @@ struct CallSessionChecks {
 
 @Suite(.serialized)
 struct DemoBackendSaveRecoveryChecks {
-    private let sessionID = "8ee186cb-3144-49e3-b0d1-c08f5bd83646"
+    private let sessionID = "8EE186CB-3144-49E3-B0D1-C08F5BD83646"
 
-    @MainActor @Test func lostPostAcknowledgementRecoversOnlyTheExactSavedReceipt() async throws {
-        let memory = try memoryPayload(receiptID: sessionID)
+    @MainActor @Test func lostPostAcknowledgementMatchesUppercaseRequestToLowercaseSavedUUID() async throws {
+        let memory = try memoryPayload(receiptID: sessionID.lowercased())
         SaveRecoveryURLProtocol.state.configure(post: .transport(.networkConnectionLost), memory: .http(200, memory))
         let (backend, session) = makeBackend()
         defer { session.invalidateAndCancel() }
 
         let result = try await save(using: backend)
 
-        #expect(result.receipt.id == sessionID)
+        #expect(result.receipt.id == sessionID.lowercased())
         #expect(result.memory.first?.signal == "Spend time on")
         #expect(result.warnings == nil)
         #expect(SaveRecoveryURLProtocol.state.requests == ["POST /sessions", "GET /memory"])

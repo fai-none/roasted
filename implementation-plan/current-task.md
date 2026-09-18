@@ -1,26 +1,20 @@
 # Current implementation task
 
-Roast-quality repair and final two-call rehearsal. Founder explicitly authorized one additional hour at21:42UTC, ending22:42UTC. Original3-hour work is preserved; this is the approved extension, not silent scope growth.
+M5 — Freeze and package the hackathon demo. Founder now requests a live Mac Simulator build for screen recording and explicitly authorizes pushing the implementation and making the GitHub repository public. Submission itself stays with the founder.
 
-Done means a reactive, entertaining physical conversation accepted by the founder, one real correction/retry saved in InsForge and recalled in a fresh call, and automatic screen-lock protection checked. Synthetic quality checks inform this gate but cannot approve it.
+Original3-hour timebox and approved extension through22:42UTC are retained. At22:23UTC founder said submission was due in half an hour; prioritize recording and repository access, no new features.
 
-Current bounded plan:
-1. Compare native speech configuration against synthetic tests; check realistic replies that do not follow the reference script.
-2. Replace the abstract topic opening with a concrete provocative choice and reduce tutor/script leakage in the prompt.
-3. Test varied typed replies plus speech-input behavior, preserve evidence validation, and rerun isolated two-call continuity.
-4. Install any native changes, rehearse with the founder, record acceptance or exact unresolved gaps.
+Done means the verified live app is open in Simulator, the public repository defaults to the working implementation, and concise recording/run/submission copy is available.
 
 AI TODOs:
-- [x] Inspect native/synthetic configuration differences and realistic baseline failures. Same provider configuration; speech test echoed instructions and completed Thai/error/retry.
-- [x] Produce a tested prompt/topic candidate; typed and synthetic speech checks pass correction/Thai flow. Grounding and comedy remain imperfect; human acceptance pending.
-- [x] Verify current two-call provider+InsForge path with isolated fixtures. One correction+improvement saved/read; prompted recall in new Higgs call; cleanup verified.
-- [ ] Install coherent verified checkpoint and run physical rehearsal.
-- [ ] Record founder roast/receipt acceptance explicitly; do not infer it.
+- [x] Verify real phone correction/retry in InsForge and matching memory provenance.
+- [x] Record founder-confirmed second-call recall **after asking**, not spontaneous.
+- [x] Inspect tracked content/history for credentials before publication; no findings.
+- [x] Fix UUID case comparison found in final save-recovery review and update regression.
+- [x] Complete final native checks and launch live Simulator build;5tests passed, HIGGS LIVE and real retrieved memory visible.
+- [ ] Push exact demo revision, set default branch, make public and verify remotely.
+- [ ] Leave recording guide and submission copy; report remaining quality/runtime limits.
 
-Phone auto-lock fix `ae03880` is built, installed and launched; actual interval check pending. Most recent real call saved a Thai excerpt but no learning signals. No new vendor, architecture, background calling, full transcript retention or publication. Exact donor and Snapshotv6 remain unchanged; authenticated dashboard tools remain unavailable.
+Physical conversation and real memory continuity are verified. Humor is better by founder feedback but full roast-quality acceptance remains open. Automatic-lock interval and capture of both voices in the founder's recording need a short human check. The prior missing-input repetition did not recur in the later physical test; provider joke repetition remains a known quality limit.
 
-Active blocker21:58UTC: founder says roast is better, but same paragraph repeats and YOU captions do not update. Diagnose microphone→PCMsend→VAD/STT with local metadata-only counters before changing the personality again. Preserve alreadybuilt audio/sleep behavior; no speculative engine restart until evidence identifies a stall.
-
-22:12UTC diagnostic rehearsal heard13turns with no dropped audio; founder confirms responses matched new speech. Exact saved receipt exists despite unconfirmed-save UI. Current task: recover only an uncertain save whose exact call ID is confirmed by a fresh InsForge read, test missing-receipt/validation-failure paths, install, then perform one real correction/retry and fresh-call recall.
-
-22:21UTC: FIRST REAL LEARNING PERSISTENCE VERIFIED. Receipt `26c02783-e225-4eea-a9ed-6c82a4885d9a` and fresh learning_memory contain actual “spend time for”→“spend time ON”, later “spend time on”, improvement=true. Current human gate is cold-reopen/new-call usage without first giving Nobody the target phrase; then exact receipt/quality acceptance. No synthetic seed.
+Canonical Snapshotv6/donor unchanged. Authenticated dashboard tools remain unavailable; no dashboard approval was invented. No background calling, broad backend work or hackathon-form submission.

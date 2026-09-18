@@ -163,7 +163,7 @@ enum DemoBackendError: LocalizedError {
             // Confirm this exact call with a fresh read; never invent a receipt or
             // submit a second session to make an uncertain save look successful.
             if let saved = try? await memory(),
-               let receipt = saved.receipts.first(where: { $0.id == id }) {
+               let receipt = saved.receipts.first(where: { $0.id.lowercased() == id.lowercased() }) {
                 return SaveResponse(receipt: receipt, memory: saved.memory, warnings: nil)
             }
             throw saveError

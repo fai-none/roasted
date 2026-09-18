@@ -1,6 +1,6 @@
 # Roast
 
-Native iOS hackathon demo. The app builds, runs the full labeled mock journey, connects to Higgs, and uses a secure local broker for InsForge receipts and learner memory. Native playback and a real iPhone correction/retry saved in InsForge are verified; fresh-call recall and human quality review remain open. See [actual evidence](docs/implementation-evidence.md) and the [rehearsal steps](docs/demo-rehearsal.md).
+Native iOS hackathon demo. The app builds, runs the full labeled mock journey, connects to Higgs, and uses a secure local broker for InsForge receipts and learner memory. Real iPhone conversation, correction/retry persistence in InsForge and founder-confirmed prompted recall in a second call are verified. Humor quality remains variable and final human quality review is open. [Submission copy and recording guide](docs/submission.md). See [actual evidence](docs/implementation-evidence.md) and the [rehearsal steps](docs/demo-rehearsal.md).
 
 Nobody calls a conversationally fluent non-native English speaker each day about one culturally relevant topic. It reacts to their opinion, roasts meaningful unnatural English, supplies a native alternative, invites a retry, and keeps talking like a friend. A post-call learning receipt retains useful examples.
 
@@ -24,7 +24,7 @@ The founder approved **in-app incoming calls** for the hackathon MVP. Background
 
 Open `Roasted.xcodeproj`, choose the `Roasted` scheme and an installed iPhone simulator, then Run. No keys are required for the static mock journey. To regenerate the project after adding Swift files: `xcodegen generate`.
 
-For iPhone 14, sign into Xcode Apple Accounts, select your own development team in Signing & Capabilities and your connected device. Signed installation and private launch succeeded on the founder's iPhone 14 Pro on September 18; the real two-call rehearsal remains open. No donor signing identity is copied.
+For iPhone 14, sign into Xcode Apple Accounts, select your own development team in Signing & Capabilities and your connected device. Signed installation, real correction/retry persistence and founder-confirmed prompted recall succeeded on the founder's iPhone 14 Pro on September 18. No donor signing identity is copied.
 
 ## Run the live demo backend
 
@@ -59,7 +59,7 @@ node --env-file=.env server/rehearse-provider.mjs --memory-continuity
 xcodebuild test -project Roasted.xcodeproj -scheme Roasted -destination 'id=SIMULATOR_ID'
 ```
 
-The Higgs smokes use provider quota but no microphone or database writes. The audio smoke requires macOS `say`/`afconvert` and synthesizes its own test sentence. The provider rehearsal uses synthetic typed input; `--memory-continuity` saves under a separate temporary learner, retrieves it in a new call, and cleans it up. Without that flag it writes no database rows. `server/verify-memory.mjs` tests the InsForge transaction separately. These checks do not prove real two-call learning. Actual observations and open gaps are in [implementation evidence](docs/implementation-evidence.md).
+The Higgs smokes use provider quota but no microphone or database writes. The audio smoke requires macOS `say`/`afconvert` and synthesizes its own test sentence. The provider rehearsal uses synthetic typed input; `--memory-continuity` saves under a separate temporary learner, retrieves it in a new call, and cleans it up. Without that flag it writes no database rows. `server/verify-memory.mjs` tests the InsForge transaction separately. These automated checks alone do not prove real two-call learning. The separate physical rehearsal confirmed a saved correction/retry and prompted recall; actual observations and open gaps are in [implementation evidence](docs/implementation-evidence.md).
 
 To rehearse from an empty learner without deleting previous receipts, choose a new `DEMO_LEARNER_ID` in the ignored `.env` and restart the Mac broker. Keep the same ID across the two calls being demonstrated.
 
