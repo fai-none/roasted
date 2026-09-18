@@ -1,0 +1,35 @@
+import Foundation
+
+@main struct CallSessionChecks {
+    @MainActor static func main() {
+        let session = CallSession()
+        session.accept()
+        precondition(session.phase == .home, "Cannot accept without an incoming call")
+        session.ring()
+        session.decline()
+        precondition(session.phase == .home)
+        session.ring()
+        session.accept()
+        session.accept()
+        precondition(session.messages.count == 1, "Repeated accept must not duplicate a call")
+        session.end()
+        precondition(session.receipt?.signals.isEmpty == true, "Empty call must not fabricate learning")
+        session.goHome()
+        session.ring()
+        session.accept()
+        session.advanceMock()
+        session.end()
+        precondition(session.receipt?.signals.first?.improvementObserved == false, "Correction without retry is not improvement")
+        session.goHome()
+        session.ring()
+        session.accept()
+        session.advanceMock()
+        session.advanceMock()
+        session.end()
+        precondition(session.receipt?.isMock == true)
+        precondition(session.savedReceipts.isEmpty, "Mock fixtures must not become saved learning")
+        session.goHome()
+        precondition(session.messages.isEmpty && !session.isMuted)
+        print("PASS: call guards, decline, empty evidence, retry provenance, mock isolation, cleanup")
+    }
+}
