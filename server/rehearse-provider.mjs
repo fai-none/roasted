@@ -121,9 +121,9 @@ try {
   const first = await connect();
   await first.greet();
   for (const input of [
-    "People is overreacting because Apple don't change much. I can spend time for more important things.",
-    "People are overreacting because Apple doesn't change much. I can spend time on more important things.",
-    'I still think buying a new phone every year is not คุ้มค่า. What would make it worth the money?',
+    'If AI agents handle my errands, I can spend time for more important things.',
+    'If AI agents handle my errands, I can spend time on more important things.',
+    'I would use the extra time to cook dinner for my family. That is more useful than checking work messages.',
   ]) await first.userTurn(input);
   const captureLatencyMS = await first.capture();
   first.close();
@@ -145,7 +145,7 @@ try {
     evidence.persistence = { temporaryLearner, savedSessionID: saved.receipt.id, freshlyRetrievedMemory: fetched.memory };
     const second = await connect(fetched.memory);
     await second.greet();
-    await second.userTurn("I'm back. Any embarrassing receipts from our previous call before we argue about the iPhone again?");
+    await second.userTurn("I'm back. Any embarrassing receipts from our previous call before we argue about AI doing my errands again?");
     second.close();
     evidence.callTwo = second.report();
   }

@@ -1,0 +1,189 @@
+{
+  "evidenceTier": "LIVE HIGGS WITH SYNTHETIC TYPED INPUT. NOT MICROPHONE, DEVICE OR HUMAN COMEDY ACCEPTANCE.",
+  "startedAt": "2026-09-18T21:47:57.509Z",
+  "novel": false,
+  "family": true,
+  "probe": false,
+  "requestedTemperature": null,
+  "outcome": "completed",
+  "topic": {
+    "title": "Would you outsource being an adult?",
+    "date": "2026-09-18",
+    "context": "AI agents can help with shopping, bookings and business phone calls. Google announced agentic shopping and store calling on November 13, 2025, and booking assistance for restaurants, event tickets and appointments on November 17, 2025. Availability varies by market and service; these are established examples, not news announced today. What will humans actually do with the time saved?",
+    "sourceURL": "https://blog.google/products-and-platforms/products/shopping/agentic-checkout-holiday-ai-shopping/",
+    "expression": "spend time on something",
+    "opening": "AI agents can make your phone calls and do your shopping. We call it the future. It sounds like adults buying a replacement adult. What are you outsourcing first?"
+  },
+  "promptSHA256": "72e294403fc292c324d52212103e58728a097afc2e2e83c332981cbd313741ce",
+  "acknowledgedSession": {
+    "model": "higgs-realtime",
+    "temperature": 0.3,
+    "outputModalities": [
+      "audio"
+    ]
+  },
+  "captureLatencyMS": 1290,
+  "validation": {
+    "receipt": {
+      "id": "4127ab1e-379c-43e3-82a6-c2ddd76a6fe2",
+      "createdAt": "2026-09-18T21:47:57.509Z",
+      "topic": "Would you outsource being an adult?",
+      "signals": [
+        {
+          "kind": "grammar",
+          "signal": "spend time FOR",
+          "originalQuote": "I can spend time for more important things",
+          "nativeAlternative": "spend time ON",
+          "retryQuote": "I can spend time on more important things",
+          "improvementObserved": true
+        }
+      ],
+      "usefulExpression": "spend time ON",
+      "culturalTakeaway": "",
+      "isMock": true,
+      "cultureLabel": "AI agents",
+      "momentOfWeakness": "Fled to Thai under pressure",
+      "momentOfWeaknessQuote": "ทำอาหารให้ครอบครัว",
+      "closingRoast": "Cooking for family? That's noble. But if you're outsourcing dinner, what's next? Letting an AI pick out your clothes?"
+    },
+    "warnings": [
+      "The cultural takeaway could not be matched to Nobody's actual words and was omitted."
+    ],
+    "rejectedSignals": 0
+  },
+  "call": {
+    "transcript": [
+      {
+        "id": "5496d4c1",
+        "speaker": "Nobody",
+        "text": "Hey, you're here. So, AI agents can make your phone calls and do your shopping. We call it the future. It sounds like adults buying a replacement adult. What are you outsourcing first?"
+      },
+      {
+        "id": "synthetic_user_e52f5bb3-0b24-4a55-a757-310a4fffe3c8",
+        "speaker": "You",
+        "text": "AI agents aren't more productive. I spend longer fixing their mistakes than doing errands myself."
+      },
+      {
+        "id": "36d64f75",
+        "speaker": "Nobody",
+        "text": "Oh, so you're the quality control manager for your own life? That's a tough job. What's the first thing you'd let an AI handle, if you had to pick?"
+      },
+      {
+        "id": "synthetic_user_b659c64f-5d9f-4eb8-81b0-54687e977333",
+        "speaker": "You",
+        "text": "I would rather use that time for… เอ่อ… ทำอาหารให้ครอบครัว"
+      },
+      {
+        "id": "20670610",
+        "speaker": "Nobody",
+        "text": "Oh. We've lost you to Thailand. Come back, we need English. You said \"做饭给家人\" right? So, what's the first thing you'd let an AI handle?"
+      },
+      {
+        "id": "synthetic_user_edd80a3f-34eb-46a0-8808-9e33c460512f",
+        "speaker": "You",
+        "text": "Stop judging me, I'm trying to answer!"
+      },
+      {
+        "id": "8f5791f5",
+        "speaker": "Nobody",
+        "text": "Alright, alright, I'll ease up. So, what's the first thing you'd let an AI handle?"
+      },
+      {
+        "id": "synthetic_user_f95e6275-399d-458b-8b65-321f1ad81dc4",
+        "speaker": "You",
+        "text": "I can spend time for more important things."
+      },
+      {
+        "id": "67a0de90",
+        "speaker": "Nobody",
+        "text": "Spend time FOR? You survived AI replacing humanity just to be murdered by a preposition. Say 'spend time ON.' Try again."
+      },
+      {
+        "id": "synthetic_user_aa91f31b-b37c-4011-ab67-075eb27643c9",
+        "speaker": "You",
+        "text": "I can spend time on more important things."
+      },
+      {
+        "id": "bc4ecdd4",
+        "speaker": "Nobody",
+        "text": "There we go, that's much better. So, what's the first thing you'd let an AI handle?"
+      },
+      {
+        "id": "synthetic_user_98a05d65-8c99-433b-99bf-232b9a06d8bf",
+        "speaker": "You",
+        "text": "Cook dinner for my family. That matters more than another app."
+      },
+      {
+        "id": "f9d72bd4",
+        "speaker": "Nobody",
+        "text": "Cooking for family? That's noble. But if you're outsourcing dinner, what's next? Letting an AI pick out your clothes?"
+      }
+    ],
+    "candidates": [
+      {
+        "signals": [
+          {
+            "kind": "grammar",
+            "signal": "spend time FOR",
+            "originalQuote": "I can spend time for more important things.",
+            "nativeAlternative": "spend time ON",
+            "retryQuote": "I can spend time on more important things.",
+            "improvementObserved": true
+          }
+        ],
+        "usefulExpression": "spend time on",
+        "culturalTakeaway": "Cooking for family is valued over using apps.",
+        "closingRoast": ""
+      }
+    ],
+    "audioBytes": 3112320,
+    "eventCounts": {
+      "session.created": 1,
+      "response.created": 8,
+      "response.output_item.added": 8,
+      "conversation.item.added": 15,
+      "response.content_part.added": 7,
+      "response.output_audio_transcript.delta": 20,
+      "response.output_audio.delta": 1307,
+      "response.output_audio_transcript.length": 20,
+      "response.output_audio_transcript.done": 7,
+      "response.output_audio.done": 7,
+      "response.content_part.done": 7,
+      "response.output_item.done": 8,
+      "response.done": 8,
+      "response.function_call_arguments.delta": 1,
+      "response.function_call_arguments.done": 1
+    }
+  },
+  "assistantTurns": [
+    {
+      "text": "Hey, you're here. So, AI agents can make your phone calls and do your shopping. We call it the future. It sounds like adults buying a replacement adult. What are you outsourcing first?",
+      "wordCount": 33
+    },
+    {
+      "text": "Oh, so you're the quality control manager for your own life? That's a tough job. What's the first thing you'd let an AI handle, if you had to pick?",
+      "wordCount": 29
+    },
+    {
+      "text": "Oh. We've lost you to Thailand. Come back, we need English. You said \"做饭给家人\" right? So, what's the first thing you'd let an AI handle?",
+      "wordCount": 25
+    },
+    {
+      "text": "Alright, alright, I'll ease up. So, what's the first thing you'd let an AI handle?",
+      "wordCount": 15
+    },
+    {
+      "text": "Spend time FOR? You survived AI replacing humanity just to be murdered by a preposition. Say 'spend time ON.' Try again.",
+      "wordCount": 21
+    },
+    {
+      "text": "There we go, that's much better. So, what's the first thing you'd let an AI handle?",
+      "wordCount": 16
+    },
+    {
+      "text": "Cooking for family? That's noble. But if you're outsourcing dinner, what's next? Letting an AI pick out your clothes?",
+      "wordCount": 19
+    }
+  ],
+  "completedAt": "2026-09-18T21:48:10.265Z"
+}

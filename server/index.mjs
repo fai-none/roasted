@@ -7,12 +7,12 @@ import { createStore } from './store.mjs';
 import { DemoError, validateSession } from './validation.mjs';
 
 export const topic = {
-  title: 'AI got productive. What’s your excuse?',
+  title: 'Would you outsource being an adult?',
   date: '2026-09-18',
   context: 'AI agents can help with shopping, bookings and business phone calls. Google announced agentic shopping and store calling on November 13, 2025, and booking assistance for restaurants, event tickets and appointments on November 17, 2025. Availability varies by market and service; these are established examples, not news announced today. What will humans actually do with the time saved?',
   sourceURL: 'https://blog.google/products-and-platforms/products/shopping/agentic-checkout-holiday-ai-shopping/',
   expression: 'spend time on something',
-  opening: 'AI agents can shop for you, help book things, and call businesses for you now. Basically your AI has become more productive than you. Thoughts?',
+  opening: 'AI agents can make your phone calls and do your shopping. We call it the future. It sounds like adults buying a replacement adult. What are you outsourcing first?',
 };
 
 async function readJSON(request) {

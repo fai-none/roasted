@@ -1,0 +1,179 @@
+{
+  "evidenceTier": "LIVE HIGGS WITH SYNTHETIC TYPED INPUT. NOT MICROPHONE, DEVICE OR HUMAN COMEDY ACCEPTANCE.",
+  "startedAt": "2026-09-18T21:44:41.671Z",
+  "novel": false,
+  "family": true,
+  "probe": false,
+  "outcome": "completed",
+  "topic": {
+    "title": "Would you outsource being an adult?",
+    "date": "2026-09-18",
+    "context": "AI agents can help with shopping, bookings and business phone calls. Google announced agentic shopping and store calling on November 13, 2025, and booking assistance for restaurants, event tickets and appointments on November 17, 2025. Availability varies by market and service; these are established examples, not news announced today. What will humans actually do with the time saved?",
+    "sourceURL": "https://blog.google/products-and-platforms/products/shopping/agentic-checkout-holiday-ai-shopping/",
+    "expression": "spend time on something",
+    "opening": "AI agents can make your phone calls and do your shopping. We call it the future. It sounds like adults buying a replacement adult. What are you outsourcing first?"
+  },
+  "promptSHA256": "366e68b3020a5a91b2b0e09d150909b5a7a90e31ad51a3253e62119cebc5c06a",
+  "captureLatencyMS": 1769,
+  "validation": {
+    "receipt": {
+      "id": "29398623-7a99-4592-95a1-5dae2624a6fc",
+      "createdAt": "2026-09-18T21:44:41.671Z",
+      "topic": "Would you outsource being an adult?",
+      "signals": [
+        {
+          "kind": "grammar",
+          "signal": "spend time ON",
+          "originalQuote": "I can spend time for more important things",
+          "nativeAlternative": "You spend time ON something",
+          "retryQuote": "I can spend time on more important things",
+          "improvementObserved": false
+        }
+      ],
+      "usefulExpression": "spend time ON something",
+      "culturalTakeaway": "Cooking for your family is a solid answer. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum",
+      "isMock": true,
+      "cultureLabel": "AI agents",
+      "momentOfWeakness": "Fled to Thai under pressure",
+      "momentOfWeaknessQuote": "ทำอาหารให้ครอบครัว",
+      "closingRoast": "Cooking for your family is a solid answer. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum"
+    },
+    "warnings": [],
+    "rejectedSignals": 0
+  },
+  "call": {
+    "transcript": [
+      {
+        "id": "0e626e04",
+        "speaker": "Nobody",
+        "text": "Hello. AI agents can make your phone calls and do your shopping. We call it the future. It sounds like adults buying a replacement adult. What are you outsourcing first?"
+      },
+      {
+        "id": "synthetic_user_521263d8-8998-4c43-b259-e8619efe0579",
+        "speaker": "You",
+        "text": "AI agents aren't more productive. I spend longer fixing their mistakes than doing errands myself."
+      },
+      {
+        "id": "ff98c6f2",
+        "speaker": "Nobody",
+        "text": "So you're not outsourcing the work, you're just automating your job into supervising an unpaid intern. Stunning. The future needs a performance review."
+      },
+      {
+        "id": "synthetic_user_bbd36a2a-54f5-41c6-bdd4-4a39e9980006",
+        "speaker": "You",
+        "text": "I would rather use that time for… เอ่อ… ทำอาหารให้ครอบครัว"
+      },
+      {
+        "id": "f044adda",
+        "speaker": "Nobody",
+        "text": "Oh. We've lost you to Thailand. Come back, we need English. You'd rather use that time for cooking for your family? Fine. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum."
+      },
+      {
+        "id": "synthetic_user_5e2515a0-cf53-4f70-9204-de03377cdfed",
+        "speaker": "You",
+        "text": "Stop judging me, I'm trying to answer!"
+      },
+      {
+        "id": "c7654f62",
+        "speaker": "Nobody",
+        "text": "Okay, okay, I'll ease up. You'd rather use that time for cooking for your family? Fine. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum."
+      },
+      {
+        "id": "synthetic_user_dd6b188e-c740-4b83-8ec2-985abe067ad9",
+        "speaker": "You",
+        "text": "I can spend time for more important things."
+      },
+      {
+        "id": "e8015631",
+        "speaker": "Nobody",
+        "text": "You survived AI replacing humanity just to be murdered by a preposition. You spend time ON something. Try again."
+      },
+      {
+        "id": "synthetic_user_0412f483-82d3-46c3-ace8-bdc3228823bd",
+        "speaker": "You",
+        "text": "I can spend time on more important things."
+      },
+      {
+        "id": "5ca5c30a",
+        "speaker": "Nobody",
+        "text": "There we go. Now you sound like a grown-up. Cooking for your family is a solid answer."
+      },
+      {
+        "id": "synthetic_user_07d3fe3e-054a-466b-a1f2-1c2f30679fd5",
+        "speaker": "You",
+        "text": "Cook dinner for my family. That matters more than another app."
+      },
+      {
+        "id": "a01c1fe6",
+        "speaker": "Nobody",
+        "text": "Cooking for your family is a solid answer. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum."
+      }
+    ],
+    "candidates": [
+      {
+        "signals": [
+          {
+            "kind": "grammar",
+            "signal": "spend time ON",
+            "originalQuote": "I can spend time for more important things.",
+            "nativeAlternative": "You spend time ON something.",
+            "retryQuote": "I can spend time on more important things.",
+            "improvementObserved": true
+          }
+        ],
+        "usefulExpression": "spend time on something",
+        "culturalTakeaway": "Cooking for your family is a solid answer. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum.",
+        "closingRoast": "Cooking for your family is a solid answer. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum."
+      }
+    ],
+    "audioBytes": 3459840,
+    "eventCounts": {
+      "session.created": 1,
+      "response.created": 8,
+      "response.output_item.added": 8,
+      "conversation.item.added": 15,
+      "response.content_part.added": 7,
+      "response.output_audio_transcript.delta": 17,
+      "response.output_audio.delta": 1451,
+      "response.output_audio_transcript.length": 17,
+      "response.output_audio_transcript.done": 7,
+      "response.output_audio.done": 7,
+      "response.content_part.done": 7,
+      "response.output_item.done": 8,
+      "response.done": 8,
+      "response.function_call_arguments.delta": 1,
+      "response.function_call_arguments.done": 1
+    }
+  },
+  "assistantTurns": [
+    {
+      "text": "Hello. AI agents can make your phone calls and do your shopping. We call it the future. It sounds like adults buying a replacement adult. What are you outsourcing first?",
+      "wordCount": 30
+    },
+    {
+      "text": "So you're not outsourcing the work, you're just automating your job into supervising an unpaid intern. Stunning. The future needs a performance review.",
+      "wordCount": 23
+    },
+    {
+      "text": "Oh. We've lost you to Thailand. Come back, we need English. You'd rather use that time for cooking for your family? Fine. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum.",
+      "wordCount": 38
+    },
+    {
+      "text": "Okay, okay, I'll ease up. You'd rather use that time for cooking for your family? Fine. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum.",
+      "wordCount": 32
+    },
+    {
+      "text": "You survived AI replacing humanity just to be murdered by a preposition. You spend time ON something. Try again.",
+      "wordCount": 19
+    },
+    {
+      "text": "There we go. Now you sound like a grown-up. Cooking for your family is a solid answer.",
+      "wordCount": 17
+    },
+    {
+      "text": "Cooking for your family is a solid answer. Dinner is one place where 'regenerate response' is a terrible thing to say to your mum.",
+      "wordCount": 24
+    }
+  ],
+  "completedAt": "2026-09-18T21:44:56.851Z"
+}

@@ -43,8 +43,8 @@ final class CallSession {
     var receipt: LearningReceipt?
     var savedReceipts: [LearningReceipt] = []
     var memorySummary = "No live learner memory loaded"
-    let topicTitle = "AI got productive. What’s your excuse?"
-    let topicContext = "AI agents can help with shopping, bookings and business phone calls. What are humans actually doing with all that saved time?"
+    let topicTitle = "Would you outsource being an adult?"
+    let topicContext = "Shopping. Booking. Making phone calls. AI agents can take on the chores—but what are you actually doing instead?"
     let topicDate = "September 18, 2026 · Today’s debate"
     let topicSourceLabel = "Google · AI shopping and calls"
     let topicSourceURL = URL(string: "https://blog.google/products-and-platforms/products/shopping/agentic-checkout-holiday-ai-shopping/")!
@@ -113,7 +113,7 @@ final class CallSession {
         }
         phase = .active
         status = "Sample conversation"
-        append("Nobody", "AI agents can shop for you, help book things, and call businesses for you now. Basically your AI has become more productive than you. Thoughts?")
+        append("Nobody", "AI agents can make your phone calls and do your shopping. We call it the future. It sounds like adults buying a replacement adult. What are you outsourcing first?")
     }
 
     func advanceMock() {

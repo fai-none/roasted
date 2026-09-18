@@ -2,6 +2,8 @@
 // Run: node --env-file=.env scripts/higgs-personality-smoke.mjs
 // Add --novel to exercise paraphrases outside the prompt's reference conversation.
 // Add --family to disagree with the premise and choose a different use of saved time.
+// Add --probe for unscripted confusion, pushback, Thai clarification and correct English.
+// Add --temperature=0.8 to compare provider variation; the acknowledged setting is recorded.
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { randomUUID, createHash } from 'node:crypto';
 import { buildInstructions, learningTool } from '../server/prompt.mjs';
@@ -11,11 +13,15 @@ import { validateSession, DemoError } from '../server/validation.mjs';
 const startedAt = new Date().toISOString();
 const novel = process.argv.includes('--novel');
 const family = process.argv.includes('--family');
+const probe = process.argv.includes('--probe');
+const temperatureArgument = process.argv.find((argument) => argument.startsWith('--temperature='));
+const temperature = temperatureArgument ? Number(temperatureArgument.split('=')[1]) : undefined;
+if (temperatureArgument && (!Number.isFinite(temperature) || temperature < 0)) throw new Error('Temperature must be a nonnegative number.');
 const connections = [];
 const evidenceFile = `docs/evidence/personality/${startedAt.replaceAll(':', '-')}.json`;
 const evidence = {
   evidenceTier: 'LIVE HIGGS WITH SYNTHETIC TYPED INPUT. NOT MICROPHONE, DEVICE OR HUMAN COMEDY ACCEPTANCE.',
-  startedAt, novel, family, outcome: 'pending', topic,
+  startedAt, novel, family, probe, requestedTemperature: temperature ?? null, outcome: 'pending', topic,
   promptSHA256: createHash('sha256').update(await readFile('server/prompt.mjs')).digest('hex'),
 };
 async function connect(memory = []) {
@@ -94,11 +100,17 @@ async function connect(memory = []) {
   }
   send({ type: 'session.update', session: {
     type: 'realtime', model: 'higgs-realtime', instructions: buildInstructions({ topic, memory, language: 'Thai' }),
+    ...(temperature === undefined ? {} : { temperature }),
     output_modalities: ['audio'],
     audio: { input: { format: { type: 'audio/pcm', rate: 24000 }, transcription: { model: 'higgs-stt-3.1', language: 'en' }, turn_detection: { type: 'semantic_vad' } }, output: { format: { type: 'audio/pcm', rate: 24000 }, voice: 'default' } },
     tools: [learningTool], tool_choice: 'auto',
   } });
-  await waitFor('session.created');
+  const created = await waitFor('session.created');
+  evidence.acknowledgedSession = {
+    model: created.session?.model ?? null,
+    temperature: created.session?.temperature ?? null,
+    outputModalities: created.session?.output_modalities ?? null,
+  };
   return {
     transcript, candidates, userTurn,
     async greet() { send({ type: 'response.create' }); await finishResponse(); },
@@ -120,7 +132,14 @@ let call;
 try {
   call = await connect();
   await call.greet();
-  const inputs = family ? [
+  const inputs = probe ? [
+    "I don't know.",
+    'What do you mean by AI agents? Give me one example.',
+    "You keep calling humans lazy. You don't actually know anything about my day.",
+    'I work ten hours a day, and I still cook dinner for my family.',
+    'อะไรนะพูดว่าอะไรนะ',
+    'I would let an AI book appointments, but I would check the details myself.',
+  ] : family ? [
     "AI agents aren't more productive. I spend longer fixing their mistakes than doing errands myself.",
     'I would rather use that time for… เอ่อ… ทำอาหารให้ครอบครัว',
     "Stop judging me, I'm trying to answer!",

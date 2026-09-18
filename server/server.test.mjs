@@ -188,15 +188,39 @@ test('AI agents culture label requires an actual transcript mention', () => {
   assert.equal(validateSession(input).receipt.cultureLabel, 'AI agents');
 });
 
-test('closing roast retains only matched actual Nobody wording, with old candidates still accepted', () => {
+test('closing roast prefers matched Nobody wording; unmatched candidates keep their warning and use actual fallback', () => {
   const input = fixture();
-  assert.equal(validateSession(input).receipt.closingRoast, '');
+  const originalAssistantText = input.transcript[1].text;
+  assert.equal(validateSession(input).receipt.closingRoast, originalAssistantText);
+  input.transcript.push({ id: 'assistant-last', speaker: 'Nobody', text: 'You survived this call. Barely.' });
   input.candidates[0].closingRoast = 'You spend time on something. Try again.';
   assert.equal(validateSession(input).receipt.closingRoast, 'You spend time ON something. Try again');
   input.candidates[0].closingRoast = 'Your grammar has been replaced by AI';
   const result = validateSession(input);
-  assert.equal(result.receipt.closingRoast, '');
+  assert.equal(result.receipt.closingRoast, 'You survived this call. Barely.');
   assert.deepEqual(result.warnings, ["The closing roast could not be matched to Nobody's actual words and was omitted."]);
+});
+
+test('closing fallback selects only the last actual assistant line, never learner words', () => {
+  const input = fixture();
+  input.candidates = [];
+  input.transcript.push(
+    { id: 'assistant-last', speaker: 'assistant', text: 'Your sentence got the upgrade this time.' },
+    { id: 'user-last', speaker: 'You', text: 'I should not become the closing roast.' },
+  );
+  assert.equal(validateSession(input).receipt.closingRoast, 'Your sentence got the upgrade this time.');
+  input.transcript = input.transcript.filter((item) => item.speaker === 'You');
+  assert.equal(validateSession(input).receipt.closingRoast, '');
+});
+
+test('closing fallback retains at most 1000 characters of one actual assistant line', () => {
+  const input = fixture();
+  input.candidates = [];
+  const text = 'Actual spoken words. '.repeat(100);
+  input.transcript.push({ id: 'assistant-long', speaker: 'Nobody', text });
+  const quote = validateSession(input).receipt.closingRoast;
+  assert.equal(quote.length, 1000);
+  assert.equal(quote, text.slice(0, 1000));
 });
 
 test('duplicate transcript IDs and no actual user speech are rejected', () => {

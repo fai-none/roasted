@@ -113,6 +113,11 @@ export function validateSession(input) {
       else if (signalKeys.size < 3) { signalKeys.add(key); signals.push(selected); sources.push(provenance); }
     }
   }
+  // The client supplies completed, heard assistant turns; retain one real line when
+  // the tool did not select a usable closing quote. Never generate a farewell.
+  if (!closingRoast) {
+    closingRoast = transcript.findLast((item) => item.speaker === 'assistant')?.text.slice(0, 1000) ?? '';
+  }
   if (rejectedSignals && !signals.length) throw new DemoError('Learning candidates did not match the actual conversation. No learning was saved.', 422);
   if (rejectedSignals) warnings.push(`${rejectedSignals} learning candidate(s) did not match the actual conversation and were omitted.`);
   const thaiSegments = transcript.filter((item) => item.speaker === 'user')
