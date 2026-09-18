@@ -120,3 +120,13 @@ The local broker was restarted with the new prompt/receipt behavior at approxima
 Founder reconnected the iPhone. CoreDevice confirmed the same iPhone 14 Pro connected; the prepared signed build of checkpoint `45dcca6` installed successfully and the private launch helper confirmed launch. Authenticated local HTTPS health returned 200 with Higgs and InsForge configured. This installs the AI-agents topic, compact receipt, English transcription hint and latest native final-capture instructions. The current broker contains the updated personality and receipt validation.
 
 Founder was asked to perform Thai switch → actual preposition error → offered correction → completed retry caption → End. Physical roast quality, receipt fidelity and fresh-call learning callback remain pending; installation does not approve them. Original hard timebox ends 21:43 UTC.
+
+## Physical rehearsal feedback and automatic sleep — 21:39 UTC
+
+Founder reported verbatim: “tested and you should have the log”; “the topic is boring. AI topic is okay but the content is not savage at all”; “the app stopped working when iphone goes to sleep more”. Clarified: “Screen locked automatically”. This explicitly leaves roast quality rejected/open.
+
+Fresh InsForge read found receipt `194b1854-07f3-4f8a-b1f9-b52af8e7701e`, created21:36:31 UTC, AI-agents topic, actual learner Thai excerpt and zero learning signals. Memory remains empty. Full conversation/audio was intentionally not retained, so the receipt cannot diagnose the exact bland response. No invented learning has been added.
+
+Source cause: `RoastedApp.swift` ends active calls on background entry, consistent with the approved foreground-only scope. Small fix disables the idle timer only while a live call connects, runs or saves in an active scene, and restores normal behavior on completion/failure/background. Signed device build passed. Automatic-lock prevention still needs physical verification; manual lock/background calls remain outside the implemented scope.
+
+At21:40 UTC CoreDevice confirmed installation of the auto-lock fix and the private launch helper succeeded on the same physical iPhone. This is build/install evidence only; founder must still verify that a live call survives the normal auto-lock interval and that idle behavior returns afterward. No personality acceptance or two-call memory proof was inferred.

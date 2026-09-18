@@ -13,3 +13,5 @@ Use the signed Roasted app on the connected iPhone, with the Mac HTTPS broker ru
 Record the device/build/date, receipt ID, retrieved signal and exact call-two callback. Distinguish tester observations from founder acceptance. Do not record raw audio or copy credentials into evidence.
 
 The founder's final checks remain: the conversation feels like the Roast Quality Contract, the receipt is faithful/useful, and the two-call demo is convincing. Technical completion does not approve these checks. Publication/submission is outside this task.
+
+The live call now keeps the screen awake to prevent automatic locking; normal auto-lock returns after it finishes. Manual locking or switching away still ends this foreground-only demo call. Verify automatic-lock prevention on the physical phone; this behavior is not background calling.

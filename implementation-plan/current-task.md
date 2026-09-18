@@ -16,3 +16,5 @@ Dashboard reconciliation is blocked by missing authenticated task tools; Snapsho
 Current bounded repair: AI-agents topic + short reactive roast prompt, explicit Thai-return-to-English beat, evidence-backed compact receipt; build/provider rehearsal before physical install and two-call validation. Hard implementation stop remains 21:43 UTC.
 
 21:36 UTC: updated checkpoint `45dcca6` installed and privately launched on the reconnected physical iPhone; authenticated broker health passed. Awaiting the founder’s actual correction/retry receipt and second-call callback. No new features planned before the 21:43 UTC hard stop.
+
+21:39 UTC: founder rejected latest roast quality (“not savage at all”) and confirmed automatic screen lock stopped the call. Latest real receipt saved Thai evidence but zero corrections; learning memory remains empty. Bounded repair prevents auto-lock during foreground live calls; signed build passed. Human roast acceptance and actual two-call memory remain open at the timebox boundary.
