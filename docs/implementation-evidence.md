@@ -35,3 +35,14 @@ Topic source was read on 2026-09-18: Apple Newsroom's September 9 iPhone 18 Pro 
 Founder supplied the Roast Quality Contract, preserved in `docs/roast-quality-contract.md`. Roast quality is P0: entertain first; approximately 70% roast/culture, 20% reactive back-and-forth, 10% explicit correction. Updated the sample interaction to use a specific upgrade callback and tease the act of switching into Thai. Added `server/prompt.mjs` with bounded, untrusted topic/memory context and actual-evidence tool instructions; no live backend is wired at this checkpoint.
 
 Revised app build passed; installed/relaunched in the same simulator. Prompt Node syntax and focused call-state checks passed. Provider configuration presence was checked without exposing values: all five required fields are populated. Credentials have not yet been tested. CoreDevice reports the paired iPhone 14 Pro as unavailable, so no physical-device proof. Static/M2 usage confirmation remains pending; adding keys has not been recorded as acceptance.
+
+## Authorized live integration — 19:13 UTC onward
+
+Founder said “connected my phone” and “you can proceed for now. we will optimise the roast quality after everything is done”. This authorizes advancing the existing static flow and the previously described live-provider tests; it does not approve live roast quality, receipt fidelity or the final demo. The phone is now available (iPhone 14 Pro). Xcode device build reports no signed-in account/profile; founder asked to sign in while simulator/provider work continues.
+
+Provider/backend evidence at 19:23 UTC:
+- Higgs ephemeral credential mint: HTTP 200. Exact session configuration produced a completed synthetic greeting with 312,960 PCM bytes/132 chunks. Empty-evidence tool round trip also completed. No microphone or persistence in those wire tests.
+- InsForge project inspected empty before additive `sessions` + `learning_memory` migration. Atomic save RPC is behind server-side admin access and table RLS; app has no provider key.
+- 11 backend tests passed (local loopback permission required). Live synthetic isolated-learner test passed save, fresh retrieval, immutable retry and rollback. Temporary test rows removed and cleanup verified; configured demo learner never seeded.
+- Local HTTPS broker `/health`, `/memory`, `/session` returned HTTP 200 under certificate validation and bearer authentication. Keys/client secrets were not printed. App simulator Home showed HIGGS LIVE and first-call empty memory after a genuine backend read.
+- First native simulator call received microphone permission but WebSocket closed before audio. Native connection diagnosis is in progress; no audible native conversation is claimed yet.
