@@ -1,6 +1,6 @@
 # M0.1 — Bootstrap a clean launchable app
 
-Status: **pending**. Planning only; do not implement until the founder starts implementation.
+Status: **implemented and simulator-verified** at 18:50 UTC. Founder started implementation on 2026-09-18; hard implementation/rehearsal stop is 21:43 UTC. Evidence: `docs/implementation-evidence.md`. Dashboard reconciliation remains blocked by unavailable authenticated MCP tools.
 
 ## Bounded task
 

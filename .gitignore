@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+.DS_Store
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+node_modules/
+.demo/
