@@ -114,3 +114,9 @@ Changed the topic to source-backed AI-agent shopping/booking/calling; the prompt
 - **Quality limit:** novel jokes remain uneven and sometimes add unsupported assumptions; brevity is improved, but founder comedic acceptance is NOT established. The provider can omit Thai inside mixed-language audio even though standalone Thai survives. A receipt cannot display omitted evidence.
 
 The local broker was restarted with the new prompt/receipt behavior at approximately 20:42 UTC. User was asked to reconnect/unlock the phone and leave Home for installation. Actual two-call learning continuity, phone transcription-fix confirmation, interruption, and founder roast/receipt/final acceptance remain open. Canonical Snapshot v6 and donor unchanged; no publication/submission.
+
+## Updated physical installation — 21:36 UTC
+
+Founder reconnected the iPhone. CoreDevice confirmed the same iPhone 14 Pro connected; the prepared signed build of checkpoint `45dcca6` installed successfully and the private launch helper confirmed launch. Authenticated local HTTPS health returned 200 with Higgs and InsForge configured. This installs the AI-agents topic, compact receipt, English transcription hint and latest native final-capture instructions. The current broker contains the updated personality and receipt validation.
+
+Founder was asked to perform Thai switch → actual preposition error → offered correction → completed retry caption → End. Physical roast quality, receipt fidelity and fresh-call learning callback remain pending; installation does not approve them. Original hard timebox ends 21:43 UTC.

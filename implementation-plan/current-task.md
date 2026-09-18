@@ -14,3 +14,5 @@ Current AI TODOs:
 Dashboard reconciliation is blocked by missing authenticated task tools; Snapshot v6 remains untouched. Evidence is in `docs/implementation-evidence.md`.
 
 Current bounded repair: AI-agents topic + short reactive roast prompt, explicit Thai-return-to-English beat, evidence-backed compact receipt; build/provider rehearsal before physical install and two-call validation. Hard implementation stop remains 21:43 UTC.
+
+21:36 UTC: updated checkpoint `45dcca6` installed and privately launched on the reconnected physical iPhone; authenticated broker health passed. Awaiting the founder’s actual correction/retry receipt and second-call callback. No new features planned before the 21:43 UTC hard stop.
