@@ -17,6 +17,7 @@ struct NobodyAvatar: View {
             .resizable()
             .scaledToFit()
             .frame(width: size, height: size)
+            .clipShape(Circle())
             .accessibilityHidden(true)
     }
 }

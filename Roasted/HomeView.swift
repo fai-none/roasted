@@ -47,10 +47,8 @@ struct HomeView: View {
                             .foregroundStyle(NobodyTheme.accent)
                     }
                     .font(.caption2)
-                    Label("English + Thai", systemImage: "globe")
-                        .font(.caption.weight(.medium))
                     Button(action: session.ring) {
-                        Label("Let Nobody call", systemImage: "phone.fill")
+                        Label("Get roasted", systemImage: "phone.fill")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(NobodyActionStyle(filled: true))

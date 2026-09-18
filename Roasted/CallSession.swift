@@ -131,7 +131,7 @@ final class CallSession {
         default:
             append("You", "เอ่อ… ทำสิ่งที่มีประโยชน์กว่า")
             append("Nobody", "Oh. We've lost you to Thailand. Come back—we need English.")
-            status = "English + Thai sample"
+            status = "Back to English"
         }
     }
 
