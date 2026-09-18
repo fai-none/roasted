@@ -7,7 +7,7 @@
   "product": {
     "id": "nobody-higgs-hackathon",
     "name": "Roast",
-    "purpose": "Nobody calls daily: a savage friend helps fluent English speakers sound natural and culturally fluent through live Higgs conversations.",
+    "purpose": "Nobody calls you in-app daily: a savage friend helps fluent English speakers sound natural and culturally fluent through live Higgs conversations.",
     "screenFormat": "mobile"
   },
   "milestone": {
@@ -56,7 +56,7 @@
     {
       "id": "m2-realtime",
       "title": "M2 — Higgs realtime conversation",
-      "definition": "Done: real speech-in/out, barge-in, recovery, turn-taking and repeated reliable sessions; graceful failures/end; selected daily-call mode verified. Device proof required for background delivery."
+      "definition": "Done: real speech-in/out, barge-in, recovery, turn-taking and repeated reliable in-app sessions; graceful failures/end and daily topic/call state verified on the intended device."
     },
     {
       "id": "m3-coaching",
@@ -93,7 +93,7 @@
       "id": "incoming",
       "title": "Nobody calls",
       "status": "pending",
-      "summary": "Planned: incoming daily-call state. Foreground versus scheduled/background delivery still requires a human decision.",
+      "summary": "Planned: Nobody presents an incoming daily call while the app is open. The user accepts or declines. Scheduled/background calls are outside the hackathon MVP.",
       "laneId": "daily-call"
     },
     {
@@ -156,7 +156,7 @@
     ],
     "implementationPlanPath": "implementation-plan/m0-foundation.md",
     "humanWants": "Next implementation session: create an independent native iOS app using only Nobody’s minimal SwiftUI target/root patterns. Native iOS is confirmed by the founder. Keep the donor read-only. See the referenced brief for M0–M5 task contracts. No app implementation has started.",
-    "originalHumanWants": "Goal: create a clean new hackathon app while selectively reusing proven Nobody implementation.\n\nExamples:\n\n- establish new repo/project\n- app builds and launches\n- port design system/assets needed for MVP\n- port/adapt reusable Nobody UI components\n- establish architecture for Higgs integration\n- remove dependency on irrelevant old product architecture\n\n- native ios is correct",
+    "originalHumanWants": "Goal: create a clean new hackathon app while selectively reusing proven Nobody implementation.\n\nExamples:\n\n- establish new repo/project\n- app builds and launches\n- port design system/assets needed for MVP\n- port/adapt reusable Nobody UI components\n- establish architecture for Higgs integration\n- remove dependency on irrelevant old product architecture\n\n- native ios is correct\n\n- I created and published a GH repo called roasted\n- agree with your rec on in-app incoming calls\n- deadlines and rules will be provided later",
     "requests": [
       {
         "id": "clean-target",
@@ -202,6 +202,18 @@
         "journeyStepIds": [
           "home"
         ]
+      },
+      {
+        "id": "inapp-scope-confirmed",
+        "text": "agree with your rec on in-app incoming calls",
+        "aiTodoIds": [],
+        "humanCheckIds": [
+          "daily-delivery-choice"
+        ],
+        "journeyStepIds": [
+          "incoming",
+          "accept"
+        ]
       }
     ],
     "aiTodo": [
@@ -241,8 +253,8 @@
     "humanChecks": [
       {
         "id": "daily-delivery-choice",
-        "label": "Before daily-call work: choose in-app demo or real scheduled/background incoming calls.",
-        "status": "needs_review"
+        "label": "MVP scope confirmed: in-app incoming calls; scheduled/background calls are deferred.",
+        "status": "approved"
       },
       {
         "id": "higgs-access",
@@ -251,7 +263,7 @@
       },
       {
         "id": "event-details",
-        "label": "Before M5: supply official hackathon URL/deadline; review the final demo against its rubric.",
+        "label": "Before M5: review official deadline/rules when supplied, then verify the demo against the rubric.",
         "status": "needs_review"
       }
     ]
@@ -353,10 +365,9 @@
   },
   "taskHistory": [],
   "progress": {
-    "summary": "Planning only · M0 next: clean app bootstrap. 0 app tasks complete. Future milestone task contracts and proof gates are in docs/execution-brief.md.",
+    "summary": "Planning only · Native iOS + in-app calls confirmed. M0 bootstrap next; 0 app tasks complete. GitHub: fai-none/roasted. Rules/deadline deferred.",
     "blockers": [
-      "Daily-call delivery mode needs a human choice before implementation; M0 bootstrap can proceed.",
-      "Higgs access is unverified for M2; official event URL/deadline/rubric are needed before M5."
+      "Higgs access is needed before M2. Official event deadline/rules will be supplied later for M5; neither blocks M0."
     ]
   },
   "references": [

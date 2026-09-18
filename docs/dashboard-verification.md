@@ -26,3 +26,9 @@ Remaining human inputs: daily-call delivery mode; Higgs access and permitted liv
 The founder requested the name Roast and confirmed native iOS. The existing repository was moved to `/Users/fai/Documents/GitHub/Roast`; the same project ID and dashboard URL were preserved. Canonical proposal/export saved the name and iOS intent, then the existing registration service imported that saved Snapshot against the new path (Snapshot v3, in sync). The four unrelated project Snapshots were unchanged. The project-picker metadata name was updated with a project.renamed audit event because no project rename command exists; canonical Snapshot changes still used the proposal/export services. Prior proposal, feedback and decision history was retained.
 
 Live browser reload verified the Roast heading and Roast project-picker option. Git has no remote: the repository exists locally only. Daily-call mode remains undecided; the in-app recommendation was not recorded as human approval. No app was implemented.
+
+## In-app scope and remote confirmation
+
+The founder approved in-app incoming calls and deferred the event deadline/rules. Snapshot v4 exported and round-tripped identically through canonical state and the repo file; its evaluation recorded successfully. Live dashboard reload shows the delivery scope human check Approved and no delivery-choice blocker. Four unrelated project Snapshots were preserved.
+
+The private GitHub repository `fai-none/roasted` was verified and added as local origin. Fetch found remote main at `e8aacd3` (Initial commit) with no shared ancestor with the local planning history. No merge or push was performed. Local planning commits remain local; future synchronization must preserve both histories without a force push. App implementation remains pending.

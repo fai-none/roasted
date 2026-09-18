@@ -8,7 +8,7 @@ For conversationally fluent non-native English speakers: one daily culture conve
 
 Higgs is the live speech-to-speech conversation engine, not a TTS layer. Do not add a separate lesson/chat product, social graph, sender/receiver flow, roast-a-friend, App Clip, sharing or callback scheduling. Optional live topic tools come after the core demo works. Keep one app, one small session boundary and the minimum trusted credential endpoint needed by the actual provider contract.
 
-Confirmed platform: native iOS (founder decision, 2026-09-18). Daily-call delivery is **not resolved**: in-app incoming call versus real scheduled/background call must be selected before its implementation. The plan does not claim a foreground simulation satisfies background daily delivery. No date, credential availability, organizer rule or official judging threshold has been invented.
+Confirmed platform: native iOS (founder decision, 2026-09-18). Daily-call delivery is **confirmed as in-app incoming calls** for the hackathon MVP. Users accept or decline while the app is open; scheduled/background calls are deferred. Deadlines and rules will be supplied later; they do not block M0. No date, credential availability, organizer rule or official judging threshold has been invented.
 
 ## Journey
 
@@ -26,7 +26,7 @@ Beluga groups these into ten readable steps. Repeated discussion/correction is a
 | **M0.2 Port selected visual primitives** | Reuse `NobodyTheme`, `NobodyAvatar`, `NobodyActionStyle` and exact mascot catalog. Extract `CallControlsView` value/callback UI from Receiver folder. Keep `ActiveCallView` layout as a reference; no `CallOrchestrator` dependency | M0.1 | Theme and avatar render in new target; asset bytes match donor; controls invoke mock callbacks; no receiver imports |
 | **M0.3 Define single-call state and Higgs boundary** | Adapt `RealtimeTransport`/session-ID and state-machine invariants into idle/ringing/connecting/active/ending/ended/failed; deterministic mock. Inspect official Higgs WebSocket audio/auth/events; do not port `NativeWebRTCRealtimeTransport` or roast modes | M0.1; M0.2 for visual integration | State-transition tests reject stale session events and finish twice; mock plugs into UI; short architecture note states exact verified provider contract and unknowns |
 
-AI can execute M0.1 in the next authorized implementation session without Higgs credentials. M0.2 and the mock portion of M0.3 do not need paid calls. Human decision: daily foreground/demo versus scheduled/background delivery before implementing that behavior.
+AI can execute M0.1 in the next authorized implementation session without Higgs credentials. M0.2 and the mock portion of M0.3 do not need paid calls. The founder selected in-app incoming calls; no daily-delivery decision is outstanding.
 
 ## M1 — Complete static product journey
 
@@ -34,7 +34,7 @@ AI can execute M0.1 in the next authorized implementation session without Higgs 
 
 | Task | Reuse / adaptation / exclusion | Depends on | Verification |
 | --- | --- | --- | --- |
-| **M1.1 Home, topic and incoming call** | Adapt D `HomeView`/`RootView` layout and selected onboarding presentation; build a single-user incoming view and accept/decline state. Remove People, friend destinations, receiver recovery/consent and remote profile requirements | M0; delivery choice for final behavior | Cold launch and returning-user paths reach topic; accept starts one mock session; decline returns Home; no dead-end navigation |
+| **M1.1 Home, topic and incoming call** | Adapt D `HomeView`/`RootView` layout and selected onboarding presentation; build a single-user incoming view and accept/decline state. Remove People, friend destinations, receiver recovery/consent and remote profile requirements | M0; approved in-app scope | Cold launch and returning-user paths reach topic; accept starts one mock session; decline returns Home; no dead-end navigation |
 | **M1.2 Active conversation and coaching loop** | Adapt D `ActiveCallView`, `CallControlsView`, private `MessageBubble`; replace `CallOrchestrator` bindings with M0 state/actions. Mock listening/speaking/opinion/reaction/correction/retry/continue without creating a standalone messaging product | M1.1 | Complete scenario including hesitation and interruption states; mute/end work; state labels reflect mock state; no networking |
 | **M1.3 End and mock learning receipt** | Adapt conversation receipt/bubble styling and finish-schema field names, not a nonexistent completed receipt screen. Use clearly labeled fixture examples for all receipt fields | M1.2 | End navigates once to receipt; empty/failed calls show honest empty state; Home return works; founder reviews full static journey |
 
@@ -42,13 +42,13 @@ Human gate: accept the complete static journey and tone before M2. Mock data mus
 
 ## M2 — Higgs realtime conversation
 
-**Done:** physical-device speech-in/speech-out, natural interruption/recovery and repeated call lifecycle work over Higgs; failure/end paths clean up mic/playback; selected daily-call delivery mode is honestly demonstrated.
+**Done:** physical-device speech-in/speech-out, natural interruption/recovery and repeated call lifecycle work over Higgs; failure/end paths clean up mic/playback; approved in-app daily-call behavior is honestly demonstrated.
 
 | Task | Reuse / adaptation / exclusion | Depends on | Verification |
 | --- | --- | --- | --- |
 | **M2.1 Secure Higgs session and full-duplex audio** | Implement the current documented WebSocket contract behind M0 boundary. Reuse donor permission/attempt-ID/cleanup lessons and tests, not OpenAI SDP/LiveKit transport. Use documented short-lived credentials from a minimal trusted server; never put the long-lived key in the app | M1 acceptance, current API contract, human-provided access | Real mic input produces Higgs speech output; invalid/expired credentials and mic denial fail visibly; no key in source/logs/app bundle |
 | **M2.2 Turn-taking, interruption and teardown** | Adapt applicable `RealtimeProviderEventReducerTests`, `CallStateMachineTests`, `CallOrchestratorTests` scenarios; replace provider-specific event names/tools. Handle output flush/cancellation, stale events, disconnect and idempotent end | M2.1 | Device scripts: barge-in, change opinion mid-sentence, pause/hesitate, recover same topic; three consecutive calls; network loss/retry/end; no overlapping old output or mic left active. Record actual latency observations, not invented targets |
-| **M2.3 Selected daily-call delivery** | In-app branch: one dated topic/incoming state with clearly described foreground limit. Background branch: implement only daily self-call scheduling and required iOS delivery integration after platform feasibility; reference donor system-call lifecycle only, never its callback/friend scheduler wholesale | Human delivery choice, M2.1 | In-app branch demonstrated as in-app only. Background branch requires signed physical-device scheduled arrival, timezone/day deduplication, accept/decline and missed-call proof; blocked if platform constraints invalidate the chosen UX |
+| **M2.3 In-app daily-call lifecycle** | Present one dated topic and incoming call inside the open app. Reuse the new M0 state machine, not donor callback scheduling or PushKit/CallKit background infrastructure | M2.1; M1 incoming UI | Accept starts one live session; decline returns Home; repeated opens do not duplicate an active call; completed/missed states and a new day behave predictably. Clearly describe the foreground-only MVP |
 
 Human input: provide Higgs access through a secret store and the intended demo language pair; approve any required provider spend/private-audio test. No secrets should be pasted into dashboard tasks. Simulator UI proof does not satisfy live voice or background delivery.
 
